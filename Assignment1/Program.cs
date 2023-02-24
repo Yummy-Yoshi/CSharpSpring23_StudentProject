@@ -1,6 +1,6 @@
-﻿using ClassLibrary;
-using ClassLibrary.Models;
+﻿using App.LearningManagement.Helpers;
 using Library.LearningManagement.Models;
+using Library.LearningManagement.Services;
 using System.Diagnostics;
 using System.Xml.Linq;
 
@@ -8,10 +8,17 @@ namespace App.LearningManagement
 {
     internal class Program
     {
+        public static StudentHelper studentHelper = new StudentHelper();
+        public static CourseHelper courseHelper = new CourseHelper();
+        public static ContentHelper contentHelper = new ContentHelper();
+        public static ModuleHelper moduleHelper = new ModuleHelper();
+        public static AssignmentHelper assignmentHelper = new AssignmentHelper();
+
         static void Main(string[] args)
         {
-            var courseList = new List<Course>();
-            var studentList = new List<Person>();
+            var studenthelper = studentHelper;
+            var coursehelper = courseHelper;
+
             bool cont = true;
 
             while (cont)
@@ -31,12 +38,12 @@ namespace App.LearningManagement
                 Console.WriteLine("12. Create an assignment");
                 Console.WriteLine("13. Exit");
 
-                string choice = Console.ReadLine() ?? string.Empty;
+                var input = Console.ReadLine();
 
-                if (int.TryParse(choice, out int choiceInt))
+                if (int.TryParse(input, out int result))
                 {
-                    if (choiceInt == 1)
-                    {
+                    if (result == 1)
+                    {/*
                         var newCourse = new Course();
 
                         Console.WriteLine("Enter class code:");
@@ -53,22 +60,10 @@ namespace App.LearningManagement
 
                         while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            var newStudent = new Person();
-
-                            Console.WriteLine("Enter student's name:");
-                            newStudent.Name = Console.ReadLine() ?? string.Empty;
-
-                            Console.WriteLine("Enter student's classification:");
-                            newStudent.Classification = Console.ReadLine() ?? string.Empty;
-
-                            Console.WriteLine("Enter student's grade:");
-                            newStudent.Grades = Console.ReadLine() ?? string.Empty;
-
-                            newCourse.Roster.Add(newStudent);
-                            studentList.Add(newStudent);
+                            studentHelper.CreateStudentRecord();
 
                             Console.WriteLine("Add more students to roster? (y/n)");
-                            response = Console.ReadLine() ?? string.Empty;
+                            response = Console.ReadLine();
                         }
 
                         Console.WriteLine("Create assignments for course:");
@@ -85,10 +80,10 @@ namespace App.LearningManagement
                             newAssignment.Description = Console.ReadLine() ?? string.Empty;
 
                             Console.WriteLine("Enter the total available points for this assignment:");
-                            newAssignment.TotalAvailablePoints = Console.ReadLine() ?? string.Empty;
+                            //newAssignment.TotalAvailablePoints = Console.ReadLine() ?? string.Empty;
 
                             Console.WriteLine("Enter the due date for this assignment:");
-                            newAssignment.DueDate = Console.ReadLine() ?? string.Empty;
+                            //newAssignment.DueDate = Console.ReadLine() ?? string.Empty;
 
                             newCourse.Assignments.Add(newAssignment);
 
@@ -138,30 +133,32 @@ namespace App.LearningManagement
                         }
 
                         courseList.Add(newCourse);
+                        */
+                        var newCourse = courseHelper.CreateCourseRecord();
+
+                        //StudentService.Add(newCourse.Roster);
 
                     }
-                    else if (choiceInt == 2)
+                    else if (result == 2)
                     {
-                        var newStudent = new Person();
-
-                        Console.WriteLine("Enter student's name:");
-                        newStudent.Name = Console.ReadLine() ?? string.Empty;
-
-                        Console.WriteLine("Enter student's classification:");
-                        newStudent.Classification = Console.ReadLine() ?? string.Empty;
-
-                        Console.WriteLine("Enter student's grade:");
-                        newStudent.Grades = Console.ReadLine() ?? string.Empty;
-
-                        studentList.Add(newStudent);
-
+                        studentHelper.CreateStudentRecord();
                     }
-                    else if (choiceInt == 5)
+                    else if (result == 3)
                     {
-                        courseList.ForEach(number => Console.WriteLine(number));
+                        studentHelper.AddStudents();
                     }
-                    else if (choiceInt == 6)
+                    else if (result == 4)
                     {
+                        studentHelper.RemoveStudents();
+                    }
+                    else if (result == 5)
+                    {
+                        courseHelper.ListCourses();
+                    }
+                    else if (result == 6)
+                    {
+                        courseHelper.SearchCourses();
+                        /*
                         Console.WriteLine("Enter course name or description to search:");
                         var query = Console.ReadLine();
 
@@ -173,24 +170,33 @@ namespace App.LearningManagement
 
                         filteredCourse.ToList().ForEach(course => Console.WriteLine($"{course.Code} - {course.Name} \n {course.Description}" +
                             $"\n Roster: {course.Roster} \n Assignments: {course.Assignments} \n Modules: {course.Modules} "));
-
+                        */
                     }
-                    else if (choiceInt == 7)
+                    else if (result == 7)
                     {
-                        studentList.ForEach(number => Console.WriteLine(number));
+                        studentHelper.ListStudents();
                     }
-                    else if (choiceInt == 8)
+                    else if (result == 8)
                     {
-                        Console.WriteLine("Enter student name to search:");
-                        var query = Console.ReadLine();
-
-                        var filteredStudents = studentList
-                            .Where(t => ((t is Person) && 
-                            (t.Name.Contains(query, StringComparison.InvariantCultureIgnoreCase))));
-
-                        filteredStudents.ToList().ForEach(student => Console.WriteLine(student));
+                        studentHelper.SearchStudents();
                     }
-                    else if (choiceInt == 13)
+                    else if (result == 9)
+                    {
+                        studentHelper.ListStudentCourse();
+                    }
+                    else if (result == 10)
+                    {
+                        courseHelper.UpdateCourseRecord();
+                    }
+                    else if (result == 11)
+                    {
+                        studentHelper.UpdateStudentRecord();
+                    }
+                    else if (result == 12)
+                    {
+                        assignmentHelper.AddAssignment();
+                    }
+                    else if (result == 13)
                     {
                         cont = false;
                     }

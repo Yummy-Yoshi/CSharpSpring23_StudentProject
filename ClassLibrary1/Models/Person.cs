@@ -8,22 +8,15 @@ namespace Library.LearningManagement.Models
 {
     public class Person
     {
-
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Dictionary<int, double> Grades { get; set; }
-
-        public string Classification { get; set; }
-
-        public virtual string Display => $"{Name} - {Classification} - {Grades}";
+        public virtual string Display => $"[{Id}] {Name}";
 
         public Person()
         {
             Name = string.Empty;
-            Grades = new Dictionary<int, double>();
         }
-
 
         public override string ToString()
         {
