@@ -25,120 +25,112 @@ namespace App.LearningManagement.Helpers
 
         public Course CreateCourseRecord(Course? selectedCourse = null)
         {
-            var studenthelper = Program.studentHelper;
-            var coursehelper = Program.courseHelper;
-            var modulehelper = Program.moduleHelper;
-
-            //var studentHelper = new StudentHelper();
-            var assignmentHelper = new AssignmentHelper();
-            //var roster = new List<Person>();
-            var assignments = new List<Assignment>();
-            //var modules = new List<Module>();
-
-            Console.WriteLine("Enter class code:");
-            var code = Console.ReadLine() ?? string.Empty;
-
-            Console.WriteLine("Enter class name:");
-            var name = Console.ReadLine() ?? string.Empty;
-
-            Console.WriteLine("Enter class description:");
-            var description = Console.ReadLine() ?? string.Empty;
-
-            /*
-            Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
-            var roster = new List<Person>();
-            bool continueAdding = true;
-
-            while (continueAdding)
-            {
-                studentService.Students.Where(s => !roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
-                var selection = "Q";
-                
-                if(studentService.Students.Any(s => !roster.Any(s2 => s2.Id => Id)))
-                {
-                    selection = Console.Readline() ?? string.Empty;
-                }
-              
-
-                if(selection.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    continueAdding = false;
-                }
-                else
-                {
-                    var selectedId = int.Parse(selection);
-                    var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
-
-                    if (selectedStudent != null)
-                    {
-                        roster.Add(selectedStudent);
-                    }
-                }
-            }
-            */
-
-
-
-            
-            Console.WriteLine("Enter student in roster? (y/n):");
-            string response = Console.ReadLine() ?? string.Empty;
-            var roster = new List<Person>();
-            while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase) || studentService.Students.Any(s => !roster.Any(s2 => s2.Id == s.Id)))
-            {
-
-                var newStudent = studenthelper.CreateStudentRecord();
-                //studentService.Add(newStudent);
-                roster.Add(newStudent);
-                //studentHelper.Add(newStudent);
-
-
-                Console.WriteLine("Add more students to roster? (y/n):");
-                response = Console.ReadLine() ?? string.Empty;
-            }
-            
-
-            Console.WriteLine("Enter assignments for course? (y/n):");
-            response = Console.ReadLine() ?? string.Empty;
-
-            while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
-            {
-                
-                assignments.Add(assignmentHelper.CreateAssignmentRecord());
-
-                Console.WriteLine("Add more assignments to course? (y/n):");
-                response = Console.ReadLine() ?? string.Empty;
-            }
-            
-            Console.WriteLine("Enter modules for course? (y/n):");
-            response = Console.ReadLine() ?? string.Empty;
-            var modules = new List<Library.LearningManagement.Models.Module>();
-
-            while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var newModule = modulehelper.CreateModuleRecord();
-                moduleService.Add(newModule);
-                modules.Add(newModule);
-
-                Console.WriteLine("Add more modules to course? (y/n)");
-                response = Console.ReadLine() ?? string.Empty;
-            }
-
-
             bool isNewCourse = false;
-            if(selectedCourse == null)
+            if (selectedCourse == null)
             {
                 isNewCourse = true;
                 selectedCourse = new Course();
             }
 
-            selectedCourse.Code = code;
-            selectedCourse.Name = name;
-            selectedCourse.Description = description;
-            selectedCourse.Roster = new List<Person>();
-            selectedCourse.Roster = roster;
-            //selectedCourse.Roster.AddRange(roster);
-            selectedCourse.Assignments = assignments;
-            selectedCourse.Modules = modules;
+            var studenthelper = Program.studentHelper;
+            var coursehelper = Program.courseHelper;
+            var modulehelper = Program.moduleHelper;
+            var assignmentHelper = new AssignmentHelper();
+
+            var choice = "Y";
+            if (!isNewCourse)
+            {
+                Console.WriteLine("Update the course code? (y/n):");
+                choice = Console.ReadLine() ?? "N";
+            }
+            if(choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine("Enter class code:");
+                selectedCourse.Code = Console.ReadLine() ?? string.Empty;
+            }
+
+            if (!isNewCourse)
+            {
+                Console.WriteLine("Update the course name? (y/n):");
+                choice = Console.ReadLine() ?? "N";
+            }
+            else
+            {
+                choice = "Y";
+            }
+            if (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine("Enter class name:");
+                selectedCourse.Name = Console.ReadLine() ?? string.Empty;
+            }
+
+            if (!isNewCourse)
+            {
+                Console.WriteLine("Update the course description? (y/n):");
+                choice = Console.ReadLine() ?? "N";
+            }
+            else
+            {
+                choice = "Y";
+            }
+            if (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine("Enter class description:");
+                selectedCourse.Description = Console.ReadLine() ?? string.Empty;
+            }
+
+            if (isNewCourse)
+            {
+                var roster = new List<Person>();
+                var assignments = new List<Assignment>();
+                var modules = new List<Library.LearningManagement.Models.Module>();
+
+                Console.WriteLine("Enter student in roster? (y/n):");
+                string response = Console.ReadLine() ?? string.Empty;
+                while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase) || studentService.Students.Any(s => !roster.Any(s2 => s2.Id == s.Id)))
+                {
+
+                    var newStudent = studenthelper.CreateStudentRecord();
+                    //studentService.Add(newStudent);
+                    roster.Add(newStudent);
+                    //studentHelper.Add(newStudent);
+
+
+                    Console.WriteLine("Add more students to roster? (y/n):");
+                    response = Console.ReadLine() ?? string.Empty;
+                }
+
+
+                Console.WriteLine("Enter assignments for course? (y/n):");
+                response = Console.ReadLine() ?? string.Empty;
+
+                while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+                {
+
+                    assignments.Add(assignmentHelper.CreateAssignmentRecord());
+
+                    Console.WriteLine("Add more assignments to course? (y/n):");
+                    response = Console.ReadLine() ?? string.Empty;
+                }
+
+                Console.WriteLine("Enter modules for course? (y/n):");
+                response = Console.ReadLine() ?? string.Empty;
+
+                while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var newModule = modulehelper.CreateModuleRecord();
+                    moduleService.Add(newModule);
+                    modules.Add(newModule);
+
+                    Console.WriteLine("Add more modules to course? (y/n)");
+                    response = Console.ReadLine() ?? string.Empty;
+                }
+
+                selectedCourse.Roster = new List<Person>();
+                selectedCourse.Roster = roster;
+                selectedCourse.Assignments = assignments;
+                selectedCourse.Modules = modules;
+            }
 
             if (isNewCourse)
             {
