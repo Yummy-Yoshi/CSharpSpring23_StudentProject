@@ -19,14 +19,10 @@ namespace App.LearningManagement.Helpers
             Console.WriteLine("Enter content item description:");
             var description = Console.ReadLine() ?? string.Empty;
 
-            Console.WriteLine("Enter content item path:");
-            var path = Console.ReadLine() ?? string.Empty;
-
             var contentItem = new ContentItem
             {
                 Name = name,
                 Description = description,
-                Path = path,
             };
 
             return contentItem;
