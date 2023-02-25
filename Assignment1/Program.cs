@@ -23,7 +23,7 @@ namespace App.LearningManagement
 
             while (cont)
             {
-                Console.WriteLine("1. Maintain Students");
+                Console.WriteLine("1. Maintain People");
                 Console.WriteLine("2. Maintain Courses");
                 Console.WriteLine("3. Exit");                            
 
@@ -50,13 +50,13 @@ namespace App.LearningManagement
         static void ShowStudentMenu(StudentHelper studentHelper)
         {
             Console.WriteLine("Choose an option:");
-            Console.WriteLine("1. Create a student");                           // student
-            Console.WriteLine("2. Add student to course");                      // student & course
-            Console.WriteLine("3. Remove student from course");                 // student & course
-            Console.WriteLine("4. List all students");                          // student
-            Console.WriteLine("5. Search for student");                         // student
-            Console.WriteLine("6. List all courses a student is taking");       // student & course
-            Console.WriteLine("7. Update a student's information");            // student
+            Console.WriteLine("1. Create a person");                         
+            Console.WriteLine("2. Add student to course");                    
+            Console.WriteLine("3. Remove student from course");             
+            Console.WriteLine("4. List all people");                      
+            Console.WriteLine("5. Search for person");                       
+            Console.WriteLine("6. List all courses a student is taking");      
+            Console.WriteLine("7. Update a person's information");         
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
             {

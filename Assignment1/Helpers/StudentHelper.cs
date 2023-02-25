@@ -19,59 +19,92 @@ namespace App.LearningManagement.Helpers
             studentService = StudentService.Current;
             courseService = CourseService.Current;
         }
-        public Person CreateStudentRecord(Student? selectedStudent = null)
+        public Person CreateStudentRecord(Person? selectedStudent = null)
         {
+            bool isCreate = false;
+            if (selectedStudent == null)
+            {
+                isCreate = true;
+                Console.WriteLine("What kind of person are you adding? [(S)tudent, (T)eachingAssistant, (I)nstructor]:");
+                var choice = Console.ReadLine() ?? string.Empty;
+                if(string.IsNullOrEmpty(choice))
+                {
+                    return null;
+                }
+                if(choice.Equals("S", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    selectedStudent = new Student();
+                }
+                else if(choice.Equals("T", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    selectedStudent = new TeachingAssistant();
+                }
+                else if (choice.Equals("I", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    selectedStudent = new Instructor();
+                }
+            }
+
+            
             Console.WriteLine("Enter student's ID:");
             var id = Console.ReadLine();
 
             Console.WriteLine("Enter student's name:");
             var name = Console.ReadLine();
-
-            Console.WriteLine("Enter student's classification [(F)reshman, S(O)phomore, (J)unior, (S)enior]:");
-            var classification = Console.ReadLine() ?? string.Empty;
-
-            PersonClassification classEnum = PersonClassification.Freshman;
-
-            if (classification.Equals("O", StringComparison.InvariantCultureIgnoreCase))
+            if (selectedStudent is Student)
             {
-                classEnum = PersonClassification.Sophomore;
+                Console.WriteLine("Enter student's classification [(F)reshman, S(O)phomore, (J)unior, (S)enior]:");
+                var classification = Console.ReadLine() ?? string.Empty;
+
+                PersonClassification classEnum = PersonClassification.Freshman;
+
+                if (classification.Equals("O", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    classEnum = PersonClassification.Sophomore;
+                }
+                else if (classification.Equals("J", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    classEnum = PersonClassification.Junior;
+                }
+                else if (classification.Equals("S", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    classEnum = PersonClassification.Senior;
+                }
+
+                Console.WriteLine("Enter student's grade:");
+                var grades = Console.ReadLine() ?? string.Empty;
+
+                var studentRecord = selectedStudent as Student;
+                if (studentRecord != null)
+                {
+                    studentRecord.Id = int.Parse(id ?? "0");
+                    studentRecord.Name = name ?? string.Empty;
+                    studentRecord.Classification = classEnum;
+
+                    if (isCreate)
+                    {
+                        studentService.Add(selectedStudent);
+                    }
+                }
             }
-            else if (classification.Equals("J", StringComparison.InvariantCultureIgnoreCase))
+            else
             {
-                classEnum = PersonClassification.Junior;
+                if (selectedStudent != null)
+                {
+                    selectedStudent.Id = int.Parse(id ?? "0");
+                    selectedStudent.Name = name ?? string.Empty;
+                    if (isCreate)
+                    {
+                        studentService.Add(selectedStudent);
+                    }
+                }
             }
-            else if (classification.Equals("S", StringComparison.InvariantCultureIgnoreCase))
-            {
-                classEnum = PersonClassification.Senior;
-            }
-
-            Console.WriteLine("Enter student's grade:");
-            var grades = Console.ReadLine() ?? string.Empty;
-
-
-            bool isCreate = false;
-            if (selectedStudent == null)
-            {
-                isCreate = true;
-                selectedStudent = new Student();
-            }
-
-            selectedStudent.Id = int.Parse(id ?? "0");
-            selectedStudent.Name = name ?? string.Empty;
-            selectedStudent.Classification = classEnum;
-
-
-            if (isCreate)
-            {
-                studentService.Add(selectedStudent);
-            }
-
             return selectedStudent;
         }
 
         public void UpdateStudentRecord()
         {
-            Console.WriteLine("Select student to update");
+            Console.WriteLine("Select person to update");
             ListStudents();
 
             var selectionStr = Console.ReadLine();
@@ -89,15 +122,6 @@ namespace App.LearningManagement.Helpers
         public void ListStudents()
         {
             studentService.Students.ForEach(Console.WriteLine);
-
-            /*
-            Console.WriteLine("Select a student:");
-            var selectionStr = Console.ReadLine();
-            var selectionInt = int.Parse(selectionStr ?? "0");
-
-            Console.WriteLine("Student Course List:");
-            courseService.Courses.Where(c => c.Roster.Any(s => s.Id == selectionInt)).ToList().ForEach(Console.WriteLine);
-            */
         }
 
         public void SearchStudents()
@@ -107,15 +131,6 @@ namespace App.LearningManagement.Helpers
             var query = Console.ReadLine() ?? string.Empty;
 
             studentService.Search(query).ToList().ForEach(Console.WriteLine);
-
-            /*
-            Console.WriteLine("Select a student:");
-            var selectionStr = Console.ReadLine();
-            var selectionInt = int.Parse(selectionStr ?? "0");
-
-            Console.WriteLine("Student Course List:");
-            courseService.Courses.Where(c => c.Roster.Any(s => s.Id == selectionInt)).ToList().ForEach(Console.WriteLine);
-            */
         }
 
         public void AddStudents()
@@ -187,8 +202,6 @@ namespace App.LearningManagement.Helpers
                     pupil = item;
             }      
 
-
-
             if (search is null)
                 Console.WriteLine("Course not found!");
             else
@@ -203,7 +216,6 @@ namespace App.LearningManagement.Helpers
 
             Console.WriteLine("Student Course List:");
             courseService.Courses.Where(c => c.Roster.Any(s => s.Id == selectionInt)).ToList().ForEach(Console.WriteLine);
-
         }
     }
 }
