@@ -8,6 +8,18 @@ namespace Library.LearningManagement.Models
 {
     public class Assignment
     {
+        private static int lastId = 0;
+        private int id = 0;
+        public int Id { 
+            get
+            {
+                if(id == 0)
+                {
+                    id = ++lastId;
+                }
+                return id;
+            }
+        }
         public string? Name { get; set; }
 
         public string? Description { get; set; }
@@ -15,7 +27,7 @@ namespace Library.LearningManagement.Models
         public decimal TotalAvailablePoints { get; set; }
 
         public DateTime DueDate { get; set; }
-        public virtual string Display => $"({DueDate}) {Name} - {TotalAvailablePoints}\n{Description}";
+        public virtual string Display => $"{Id}. ({DueDate}) {Name} - {TotalAvailablePoints}\n{Description}";
 
         public override string ToString()
         {

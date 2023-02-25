@@ -162,9 +162,55 @@ namespace App.LearningManagement.Helpers
                     return item;
                 }     
             }
-
             return null;
+        }
 
+        public void UpdateAssignment()
+        {
+            var assignmentHelper = new AssignmentHelper();
+
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Choose an assignment to update:");
+                selectedCourse.Assignments.ForEach(Console.WriteLine);
+                var selectionStr = Console.ReadLine() ?? string.Empty;
+                var selectionInt = int.Parse(selectionStr);
+                var selectedAssignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == selectionInt);
+                if (selectedAssignment != null)
+                {
+                    var index = selectedCourse.Assignments.IndexOf(selectedAssignment);
+                    selectedCourse.Assignments.RemoveAt(index);
+                    selectedCourse.Assignments.Insert(index, (assignmentHelper.CreateAssignmentRecord()));
+                }
+            }
+        }
+
+        public void RemoveAssignment()
+        {
+            var assignmentHelper = new AssignmentHelper();
+
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Choose an assignment to delete:");
+                selectedCourse.Assignments.ForEach(Console.WriteLine);
+                var selectionStr = Console.ReadLine() ?? string.Empty;
+                var selectionInt = int.Parse(selectionStr);
+                var selectedAssignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == selectionInt);
+                if (selectedAssignment != null)
+                {
+                    selectedCourse.Assignments.Remove(selectedAssignment);
+                }
+            }
         }
 
         private void SetupRoster(Course c)

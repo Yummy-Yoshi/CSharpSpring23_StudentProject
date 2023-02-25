@@ -99,6 +99,8 @@ namespace App.LearningManagement
             Console.WriteLine("3. Search for course");
             Console.WriteLine("4. Update a course's information");
             Console.WriteLine("5. Create an assignment");
+            Console.WriteLine("6. Update an assignment");
+            Console.WriteLine("7. Remove an assignment");
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
             {
@@ -118,10 +120,17 @@ namespace App.LearningManagement
                 {
                     courseHelper.UpdateCourseRecord();
                 }
-
                 else if (result == 5)
                 {
                     assignmentHelper.AddAssignment();
+                }
+                else if (result == 6)
+                {
+                    courseHelper.UpdateAssignment();
+                }
+                else if (result == 7)
+                {
+                    courseHelper.RemoveAssignment();
                 }
             }
         }
