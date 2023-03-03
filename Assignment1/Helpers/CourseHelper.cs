@@ -141,7 +141,7 @@ namespace App.LearningManagement.Helpers
             {
                 if (item.Code == query)
                 {
-                    Console.WriteLine($"{item.Code} - {item.Name}\n{item.Description}\n");
+                    Console.WriteLine($"{item.Code} - {item.Name}\n\t{item.Description}\n");
 
                     Console.WriteLine("Roster:");
 

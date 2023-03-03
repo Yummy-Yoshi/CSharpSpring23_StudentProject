@@ -14,7 +14,7 @@ namespace Library.LearningManagement.Models
 
         public string Description { get; set; }
 
-        public virtual string Display => $"{Name} ({Description})";
+        public virtual string Display => $"{Name}: {Description}";
 
         public override string ToString()
         {
