@@ -27,7 +27,7 @@ namespace Library.LearningManagement.Models
         public decimal TotalAvailablePoints { get; set; }
 
         public DateTime DueDate { get; set; }
-        public virtual string Display => $"{Id}. ({DueDate}) {Name} - {TotalAvailablePoints}\n{Description}";
+        public virtual string Display => $"{Id}. ({DueDate}) {Name} - {TotalAvailablePoints}\n\t{Description}";
 
         public override string ToString()
         {

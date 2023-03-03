@@ -20,7 +20,7 @@ namespace Library.LearningManagement.Models
             Content = new List<ContentItem>();
         }
 
-        public virtual string Display => $"{Name} ({Description})\n" +
+        public virtual string Display => $"{Name}: {Description}\n" +
             $"\n{Name} Content:\n{string.Join("\n", Content.Select(a => a.ToString()).ToArray())}";
 
         public override string ToString()
