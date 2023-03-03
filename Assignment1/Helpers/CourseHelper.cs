@@ -255,7 +255,7 @@ namespace App.LearningManagement.Helpers
 
             while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
             {
-                var newModule = modulehelper.CreateModuleRecord();
+                var newModule = modulehelper.CreateModuleRecord(c);
                 moduleService.Add(newModule);
                 c.Modules.Add(newModule);
 
