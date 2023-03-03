@@ -101,6 +101,7 @@ namespace App.LearningManagement
             Console.WriteLine("5. Create an assignment");
             Console.WriteLine("6. Update an assignment");
             Console.WriteLine("7. Remove an assignment");
+            Console.WriteLine("8. Add a module to a course");
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
             {
@@ -131,6 +132,10 @@ namespace App.LearningManagement
                 else if (result == 7)
                 {
                     courseHelper.RemoveAssignment();
+                }
+                else if (result == 8)
+                {
+                    courseHelper.AddModule();
                 }
             }
         }

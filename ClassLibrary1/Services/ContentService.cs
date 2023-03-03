@@ -9,7 +9,26 @@ namespace Library.LearningManagement.Services
 {
     public class ContentService
     {
-        private List<ContentItem> contentList = new List<ContentItem>();
+        private List<ContentItem> contentList;
+        private static ContentService? _instance;
+
+        public static ContentService Current
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new ContentService();
+                }
+
+                return _instance;
+            }
+        }
+
+        private ContentService()
+        {
+            contentList = new List<ContentItem>();
+        }
 
         public void Add(ContentItem content)
         {
