@@ -165,6 +165,23 @@ namespace App.LearningManagement.Helpers
             return null;
         }
 
+        public void AddModule()
+        {
+            var modulehelper = Program.moduleHelper;
+
+            Console.WriteLine("Enter the code for the course to add the module to:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));   
+            if (selectedCourse != null)
+            {
+                var newModule = modulehelper.CreateModuleRecord(selectedCourse);
+                moduleService.Add(newModule);
+                selectedCourse.Modules.Add(newModule);
+            }
+        }
+
         public void UpdateAssignment()
         {
             var assignmentHelper = new AssignmentHelper();
