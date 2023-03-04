@@ -141,7 +141,7 @@ namespace App.LearningManagement.Helpers
             {
                 if (item.Code == query)
                 {
-                    Console.WriteLine($"{item.Code} - {item.Name}\n\t{item.Description}\n");
+                    Console.WriteLine($"{item.Code} - {item.Name}\n{item.Description}\n");
 
                     Console.WriteLine("Roster:");
 
@@ -179,6 +179,28 @@ namespace App.LearningManagement.Helpers
                 var newModule = modulehelper.CreateModuleRecord(selectedCourse);
                 moduleService.Add(newModule);
                 selectedCourse.Modules.Add(newModule);
+            }
+        }
+
+        public void RemoveModule()
+        {
+            Console.WriteLine("Enter the code for the course:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = (courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase)));
+
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Choose an module to delete:");
+                selectedCourse.Modules.ForEach(Console.WriteLine);
+                var selectionStr = Console.ReadLine() ?? string.Empty;
+                var selectionInt = int.Parse(selectionStr);
+                var selectedModule = selectedCourse.Modules.FirstOrDefault(m => m.Id == selectionInt);
+                if (selectedModule != null)
+                {
+                    selectedCourse.Modules.Remove(selectedModule);
+                }
             }
         }
 
