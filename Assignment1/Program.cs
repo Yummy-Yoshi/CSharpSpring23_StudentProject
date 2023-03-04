@@ -56,7 +56,8 @@ namespace App.LearningManagement
             Console.WriteLine("4. List all people");                      
             Console.WriteLine("5. Search for person");                       
             Console.WriteLine("6. List all courses a student is taking");      
-            Console.WriteLine("7. Update a person's information");         
+            Console.WriteLine("7. Update a person's information");
+            Console.WriteLine("8. Create a student's submission");
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
             {
@@ -87,6 +88,10 @@ namespace App.LearningManagement
                 else if (result == 7)
                 {
                     studentHelper.UpdateStudentRecord();
+                }
+                else if (result == 8)
+                {
+                    studentHelper.CreateStudentSubmission();
                 }
             }
 

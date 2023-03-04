@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace App.LearningManagement.Helpers
 {
@@ -71,8 +72,8 @@ namespace App.LearningManagement.Helpers
                     classEnum = PersonClassification.Senior;
                 }
 
-                Console.WriteLine("Enter student's grade:");
-                var grades = Console.ReadLine() ?? string.Empty;
+                //Console.WriteLine("Enter student's grade:");
+                //var grades = Console.ReadLine() ?? string.Empty;
 
                 var studentRecord = selectedStudent as Student;
                 if (studentRecord != null)
@@ -206,6 +207,52 @@ namespace App.LearningManagement.Helpers
                 Console.WriteLine("Course not found!");
             else
                 courseService.RemoveStudent(coure, pupil);
+        }
+
+        public void CreateStudentSubmission()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Which assignment to submit to?");
+                selectedCourse.Assignments.ForEach(Console.WriteLine);
+                var choice = int.Parse(Console.ReadLine() ?? "-1");
+
+                if (choice >= 0)
+                {
+                    var assignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == choice);
+
+                    Console.WriteLine("Which student's submission should be added?");
+
+                    foreach (Person x in selectedCourse.Roster)
+                    {
+                        if(x is Student)
+                            Console.WriteLine(x);
+                    }
+
+                    var Schoice = int.Parse(Console.ReadLine() ?? "-1");
+
+                    if (Schoice >= 0)
+                    {
+                        var submission = (Student)selectedCourse.Roster.FirstOrDefault(r => r.Id == Schoice);
+                        if (submission is Student)
+                        {
+                            Console.WriteLine($"Enter grade for submission (Max: {assignment.TotalAvailablePoints}):");
+                            var grade = int.Parse(Console.ReadLine() ?? "-1");
+                            submission.Grades.Add(assignment.Id, grade);
+
+                            assignment.Submissions.Add(submission);
+                        }
+                        else
+                            Console.WriteLine("Not a student!");
+                    }
+                }
+            }
         }
 
         public void ListStudentCourse()

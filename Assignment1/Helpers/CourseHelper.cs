@@ -151,14 +151,24 @@ namespace App.LearningManagement.Helpers
                     Console.WriteLine("\nAssignments:");
 
                     foreach (var x in item.Assignments)
+                    {
                         Console.WriteLine($"{x}");
 
-                    Console.WriteLine("\nModules:");
+                        Console.Write($"\tSubmissions:");
+
+                        foreach (var i in x.Submissions)
+                        {
+                            Console.Write($"\n\t{i}");
+                            Console.Write($" ({i.Grades[x.Id]})");
+                        }
+                    }
+
+                    Console.WriteLine("\n\nModules:");
 
                     foreach (var x in item.Modules)
                         Console.WriteLine($"{x}");
 
-                    Console.WriteLine($"\n");
+                    Console.Write($"\n");
                     return item;
                 }     
             }
@@ -229,7 +239,7 @@ namespace App.LearningManagement.Helpers
             }
         }
 
-            public void UpdateAssignment()
+        public void UpdateAssignment()
         {
             var assignmentHelper = new AssignmentHelper();
 
@@ -327,6 +337,51 @@ namespace App.LearningManagement.Helpers
                 response = Console.ReadLine() ?? string.Empty;
             }
         }
+
+        public void AddSubmission()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Which assignment to submit to?");
+                selectedCourse.Assignments.ForEach(Console.WriteLine);
+                var choice = int.Parse(Console.ReadLine() ?? "-1");
+
+                if (choice >= 0)
+                {
+                    var assignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == choice);
+
+                    Console.WriteLine("Which student's submission should be added?");
+                    selectedCourse.Roster.ForEach(Console.WriteLine);
+
+                    foreach (Student x in selectedCourse.Roster)
+                        Console.WriteLine();
+
+                    var Schoice = int.Parse(Console.ReadLine() ?? "-1");
+
+                    if (Schoice >= 0)
+                    {
+                        var submission = (Student)selectedCourse.Roster.FirstOrDefault(r => r.Id == Schoice);
+                        if (submission is Student)
+                        {
+                            Console.WriteLine("Enter grade for submission:");
+                            var grade = int.Parse(Console.ReadLine() ?? "-1");
+                            submission.Grades.Add(assignment.Id, grade);
+
+                            assignment.Submissions.Add(submission);
+                        }
+                        else
+                            Console.WriteLine("Not a student!");
+                    }
+                }
+            }
+        }
+
 
     }
 }
