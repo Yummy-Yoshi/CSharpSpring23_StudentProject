@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,7 +28,17 @@ namespace Library.LearningManagement.Models
         public decimal TotalAvailablePoints { get; set; }
 
         public DateTime DueDate { get; set; }
-        public virtual string Display => $"{Id}. ({DueDate}) {Name} - {TotalAvailablePoints}\n\t{Description}";
+
+        public List<Student> Submissions { get; set; }
+
+        public Assignment()
+        {
+            Submissions = new List<Student>();
+        }
+
+
+        public virtual string Display => $"{Id}. ({DueDate}) {Name} - {TotalAvailablePoints}\n{Description}";
+
 
         public override string ToString()
         {
