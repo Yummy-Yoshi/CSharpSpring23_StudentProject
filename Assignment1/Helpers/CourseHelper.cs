@@ -158,7 +158,7 @@ namespace App.LearningManagement.Helpers
                     foreach (var x in item.Modules)
                         Console.WriteLine($"{x}");
 
-
+                    Console.WriteLine($"\n");
                     return item;
                 }     
             }
@@ -204,7 +204,32 @@ namespace App.LearningManagement.Helpers
             }
         }
 
-        public void UpdateAssignment()
+        public void UpdateModule()
+        {
+            var moduleHelper = new ModuleHelper();
+
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Choose a module to update:");
+                selectedCourse.Modules.ForEach(Console.WriteLine);
+                var selectionStr = Console.ReadLine() ?? string.Empty;
+                var selectionInt = int.Parse(selectionStr);
+                var selectedModule = selectedCourse.Modules.FirstOrDefault(m => m.Id == selectionInt);
+                if (selectedModule != null)
+                {
+                    var index = selectedCourse.Modules.IndexOf(selectedModule);
+                    selectedCourse.Modules.RemoveAt(index);
+                    selectedCourse.Modules.Insert(index, (moduleHelper.CreateModuleRecord(selectedCourse)));
+                }
+            }
+        }
+
+            public void UpdateAssignment()
         {
             var assignmentHelper = new AssignmentHelper();
 
