@@ -8,7 +8,12 @@ namespace Library.LearningManagement.Models
 {
     public class Person
     {
-        public int Id { get; set; }
+        private static int lastId = 0;
+
+        public int Id
+        {
+            get; private set;
+        }
         public string Name { get; set; }
 
         public virtual string Display => $"[{Id}] {Name}";
@@ -16,6 +21,7 @@ namespace Library.LearningManagement.Models
         public Person()
         {
             Name = string.Empty;
+            Id = ++lastId;
         }
 
         public override string ToString()
