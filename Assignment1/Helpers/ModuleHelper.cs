@@ -83,7 +83,7 @@ namespace App.LearningManagement.Helpers
             return module;
         }
 
-        private AssignmentItem? CreateAssignmentItem(Course c)
+        public AssignmentItem? CreateAssignmentItem(Course c)
         {
             Console.WriteLine("Enter assignment name:");
             var name = Console.ReadLine() ?? string.Empty;
@@ -107,7 +107,7 @@ namespace App.LearningManagement.Helpers
             }
             return null;
         }
-        private FileItem? CreateFileItem(Course c)
+        public FileItem? CreateFileItem(Course c)
         {
             Console.WriteLine("Enter file name:");
             var name = Console.ReadLine() ?? string.Empty;
@@ -125,7 +125,7 @@ namespace App.LearningManagement.Helpers
             };
         }
 
-        private PageItem? CreatePageItem(Course c)
+        public PageItem? CreatePageItem(Course c)
         {
             Console.WriteLine("Enter page name:");
             var name = Console.ReadLine() ?? string.Empty;
