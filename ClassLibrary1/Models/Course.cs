@@ -12,6 +12,8 @@
 
         public List<Assignment> Assignments { get; set; }
 
+        public List<AssignmentGroup> AssignmentGroups { get; set; }
+
         public List<Module> Modules { get; set; }
 
         public Course()
@@ -21,6 +23,7 @@
             Description = string.Empty;
             Roster = new List<Person>();
             Assignments = new List<Assignment>();
+            AssignmentGroups = new List<AssignmentGroup>();
             Modules = new List<Module>();
         }
 

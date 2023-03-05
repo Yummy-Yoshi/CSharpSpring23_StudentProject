@@ -453,6 +453,61 @@ namespace App.LearningManagement.Helpers
             }
         }
 
+        public void CreateAssignmentGroup()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Enter assignment group name:");
+                var name = Console.ReadLine() ?? string.Empty;
+
+                Console.WriteLine("Enter assignment group weight:");
+                decimal weight = decimal.Parse(Console.ReadLine() ?? "100");
+                var assignmentGroup = new AssignmentGroup();
+                var response = "Y";
+                while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Console.WriteLine("Which assignment should be added?");
+                    selectedCourse.Assignments.ForEach(Console.WriteLine);
+                    var choice = int.Parse(Console.ReadLine() ?? "-1");
+
+                    if (choice >= 0)
+                    {
+                        var assignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == choice);
+
+                        if (assignment != null)
+                        {
+                            assignmentGroup.Name = name;
+                            assignmentGroup.Weight = weight;
+                            assignmentGroup.Assignments.Add(assignment);
+                        }
+                    }
+                    
+                    Console.WriteLine("Add more assignments to group? (y/n)");
+                    response = Console.ReadLine() ?? string.Empty;
+                }
+                selectedCourse.AssignmentGroups.Add(assignmentGroup);
+            }
+        }
+
+        public void ListAssignmentGroups()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+            if (selectedCourse != null)
+            {
+                selectedCourse.AssignmentGroups.ForEach(Console.WriteLine);
+            }
+        }
+
+
         private void SetupRoster(Course c)
         {
             var studenthelper = Program.studentHelper;
