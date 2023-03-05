@@ -1,6 +1,7 @@
 ﻿using App.LearningManagement.Helpers;
 using Library.LearningManagement.Models;
 using Library.LearningManagement.Services;
+using System;
 using System.Diagnostics;
 using System.Xml.Linq;
 
@@ -18,6 +19,7 @@ namespace App.LearningManagement
         {
             var studenthelper = studentHelper;
             var coursehelper = courseHelper;
+
 
             bool cont = true;
 
@@ -57,7 +59,10 @@ namespace App.LearningManagement
             Console.WriteLine("5. Search for person");                       
             Console.WriteLine("6. List all courses a student is taking");      
             Console.WriteLine("7. Update a person's information");
-            Console.WriteLine("8. Create a student's submission");
+            Console.WriteLine("8. Add a student's submission");
+            Console.WriteLine("9. Update a student's submission");
+            Console.WriteLine("10. Delete a student's submission");
+
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
             {
@@ -92,6 +97,14 @@ namespace App.LearningManagement
                 else if (result == 8)
                 {
                     studentHelper.CreateStudentSubmission();
+                }
+                else if (result == 9)
+                {
+                    studentHelper.UpdateStudentSubmission();
+                }
+                else if (result == 10)
+                {
+                    studentHelper.DeleteStudentSubmission();
                 }
             }
 

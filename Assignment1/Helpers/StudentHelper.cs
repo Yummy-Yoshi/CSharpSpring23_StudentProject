@@ -255,6 +255,93 @@ namespace App.LearningManagement.Helpers
             }
         }
 
+        public void UpdateStudentSubmission()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Which assignment to update?");
+                selectedCourse.Assignments.ForEach(Console.WriteLine);
+                var choice = int.Parse(Console.ReadLine() ?? "-1");
+
+                if (choice >= 0)
+                {
+                    var assignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == choice);
+
+                    Console.WriteLine("Which student's submission should be updated?");
+
+                    foreach (var i in assignment.Submissions)
+                    {
+                        Console.Write($"{i}");
+                        Console.Write($" ({i.Grades[assignment.Id]})\n");
+                    }
+
+                    var Schoice = int.Parse(Console.ReadLine() ?? "-1");
+
+                    if (Schoice >= 0)
+                    {
+                        var submission = (Student)selectedCourse.Roster.FirstOrDefault(r => r.Id == Schoice);
+                        if (submission is Student)
+                        {
+                            Console.WriteLine($"Enter grade for submission (Max: {assignment.TotalAvailablePoints}):");
+                            var grade = int.Parse(Console.ReadLine() ?? "-1");
+                            submission.Grades[assignment.Id] = grade;
+                        }
+                        else
+                            Console.WriteLine("Not a student!");
+                    }
+                }
+            }
+        }
+
+        public void DeleteStudentSubmission()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Which assignment?");
+                selectedCourse.Assignments.ForEach(Console.WriteLine);
+                var choice = int.Parse(Console.ReadLine() ?? "-1");
+
+                if (choice >= 0)
+                {
+                    var assignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == choice);
+
+                    Console.WriteLine("Which student's submission should be deleted?");
+
+                    foreach (var i in assignment.Submissions)
+                    {
+                        Console.Write($"{i}");
+                        Console.Write($" ({i.Grades[assignment.Id]})\n");
+                    }
+
+                    var Schoice = int.Parse(Console.ReadLine() ?? "-1");
+
+                    if (Schoice >= 0)
+                    {
+                        var submission = assignment.Submissions.FirstOrDefault(r => r.Id == Schoice);
+                        if (submission is Student)
+                        {
+                            assignment.Submissions.Remove(submission);
+                        }
+                        else
+                            Console.WriteLine("Not a student!");
+                    }
+                }
+            }
+        }
+
+
         public void ListStudentCourse()
         {
             Console.WriteLine("Enter student ID:");
