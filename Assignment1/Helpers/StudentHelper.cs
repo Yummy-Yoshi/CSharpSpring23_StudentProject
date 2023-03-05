@@ -50,8 +50,8 @@ namespace App.LearningManagement.Helpers
             }
 
             
-            Console.WriteLine("Enter student's ID:");
-            var id = Console.ReadLine();
+            //Console.WriteLine("Enter student's ID:");
+            //var id = Console.ReadLine();
 
             Console.WriteLine("Enter student's name:");
             var name = Console.ReadLine();
@@ -81,7 +81,7 @@ namespace App.LearningManagement.Helpers
                 var studentRecord = selectedStudent as Student;
                 if (studentRecord != null)
                 {
-                    studentRecord.Id = int.Parse(id ?? "0");
+                    //studentRecord.Id = int.Parse(id ?? "0");
                     studentRecord.Name = name ?? string.Empty;
                     studentRecord.Classification = classEnum;
 
@@ -95,7 +95,7 @@ namespace App.LearningManagement.Helpers
             {
                 if (selectedStudent != null)
                 {
-                    selectedStudent.Id = int.Parse(id ?? "0");
+                    //selectedStudent.Id = int.Parse(id ?? "0");
                     selectedStudent.Name = name ?? string.Empty;
                     if (isCreate)
                     {

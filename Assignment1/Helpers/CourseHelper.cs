@@ -43,8 +43,23 @@ namespace App.LearningManagement.Helpers
             }
             if(choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
             {
-                Console.WriteLine("Enter class code:");
-                selectedCourse.Code = Console.ReadLine() ?? string.Empty;
+                var entering = true;
+                while(entering)
+                {
+                    Console.WriteLine("Enter class code:");
+                    var codeChoice = Console.ReadLine() ?? string.Empty;
+
+                    var code = courseService.Courses.FirstOrDefault(s => s.Code.Equals(codeChoice, StringComparison.CurrentCultureIgnoreCase));
+                    if (code == null)
+                    {
+                        selectedCourse.Code = codeChoice;
+                        entering = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Course code already used, try again!");
+                    }
+                }                
             }
 
             if (!isNewCourse)
@@ -95,7 +110,7 @@ namespace App.LearningManagement.Helpers
         public void UpdateCourseRecord()
         {
             Console.WriteLine("Enter the code for the course to update");
-            ListCourses();
+            courseService.Courses.ForEach(Console.WriteLine);
 
             var selection = Console.ReadLine();
 
