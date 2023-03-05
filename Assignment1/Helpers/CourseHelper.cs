@@ -16,11 +16,14 @@ namespace App.LearningManagement.Helpers
         private CourseService courseService;
         private StudentService studentService;
         private ModuleService moduleService = new ModuleService();
+        private ListNavigator<Course> courseNavigator;
 
         public CourseHelper()
         {
             studentService = StudentService.Current;
             courseService = CourseService.Current;
+
+            courseNavigator = new ListNavigator<Course>(courseService.Courses);
         }
 
         public Course CreateCourseRecord(Course? selectedCourse = null)
@@ -119,60 +122,126 @@ namespace App.LearningManagement.Helpers
 
         }
 
+        private Course NavigateCourses(string? query = null)
+        {
+            ListNavigator<Course>? currentNavigator = null;
+            if (query == null)
+            {
+                currentNavigator = courseNavigator;
+            }
+            else
+            {
+                currentNavigator = new ListNavigator<Course>(courseService.Search(query).ToList());
+            }
+
+            if (currentNavigator.HasNavigator)
+            {
+                bool keepPaging = true;
+                while (keepPaging)
+                {
+                    Console.WriteLine("Make a selection:");
+                    foreach (var pair in currentNavigator.GetCurrentPage())
+                    {
+                        Console.WriteLine($"{pair.Key}. {pair.Value}");
+                    }
+
+                    if (currentNavigator.HasPreviousPage && currentNavigator.HasNextPage)
+                    {
+                        Console.WriteLine("<- (P)revious\t(Q)uit\t(N)ext ->");
+                    }
+                    else if (currentNavigator.HasNextPage)
+                    {
+                        Console.WriteLine("   (Q)uit\t(N)ext ->");
+                    }
+                    else if (currentNavigator.HasPreviousPage)
+                    {
+                        Console.WriteLine("<- (P)revious\t(Q)uit");
+                    }
+                    else
+                    {
+                        Console.WriteLine("   (Q)uit");
+                    }
+                    var selectionStr = Console.ReadLine();
+
+                    if ((selectionStr?.Equals("P", StringComparison.InvariantCultureIgnoreCase) ?? false)
+                        || (selectionStr?.Equals("N", StringComparison.InvariantCultureIgnoreCase) ?? false)
+                        || (selectionStr?.Equals("Q", StringComparison.InvariantCultureIgnoreCase) ?? false))
+                    {
+                        if (selectionStr.Equals("P", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            currentNavigator.GoBackward();
+                        }
+                        else if (selectionStr.Equals("N", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            currentNavigator.GoForward();
+                        }
+                        else if (selectionStr.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            keepPaging = false;
+                        }
+                    }
+                    else
+                    {
+                        var search = courseService.Search(selectionStr ?? "").ToList();
+
+                        foreach (var item in search)
+                        {
+                            if (item.Code == selectionStr)
+                            {
+                                Console.WriteLine($"{item.Code} - {item.Name}\n{item.Description}\n");
+
+                                Console.WriteLine("Roster:");
+
+                                foreach (var x in item.Roster)
+                                    Console.WriteLine($"{x}");
+
+                                Console.WriteLine("\nAssignments:");
+
+                                foreach (var x in item.Assignments)
+                                {
+                                    Console.WriteLine($"{x}");
+
+                                    Console.Write($"\tSubmissions:");
+
+                                    foreach (var i in x.Submissions)
+                                    {
+                                        Console.Write($"\n\t{i}");
+                                        Console.Write($" ({i.Grades[x.Id]})");
+                                    }
+                                }
+
+                                Console.WriteLine("\n\nModules:");
+
+                                foreach (var x in item.Modules)
+                                    Console.WriteLine($"{x}");
+
+                                Console.Write($"\n");
+                                return item;
+                            }
+                        }
+                        return null;
+                        keepPaging = false;
+                    }
+                }
+                return null;
+            }
+            return null;
+        }
+
         public void ListCourses()
         {
-            courseService.Courses.ForEach(Console.WriteLine);
+            NavigateCourses();
+            //courseService.Courses.ForEach(Console.WriteLine);
         }
 
         public Course SearchCourses()
         {
-            courseService.Courses.ForEach(Console.WriteLine);
+            //courseService.Courses.ForEach(Console.WriteLine);
             Console.WriteLine("Enter course code to search:");
             var query = Console.ReadLine() ?? string.Empty;
 
             //courseService.Search(query).ToList().ForEach(Console.WriteLine);
-
-            var search = courseService.Search(query).ToList();
-
-            //var selectedCourse = courseService.Courses.FirstOrDefault(c => c.Name.Equals(query, StringComparison.InvariantCultureIgnoreCase));
-            //if (selectedCourse != null) { }
-
-            foreach (var item in search)
-            {
-                if (item.Code == query)
-                {
-                    Console.WriteLine($"{item.Code} - {item.Name}\n{item.Description}\n");
-
-                    Console.WriteLine("Roster:");
-
-                    foreach (var x in item.Roster)
-                        Console.WriteLine($"{x}");
-
-                    Console.WriteLine("\nAssignments:");
-
-                    foreach (var x in item.Assignments)
-                    {
-                        Console.WriteLine($"{x}");
-
-                        Console.Write($"\tSubmissions:");
-
-                        foreach (var i in x.Submissions)
-                        {
-                            Console.Write($"\n\t{i}");
-                            Console.Write($" ({i.Grades[x.Id]})");
-                        }
-                    }
-
-                    Console.WriteLine("\n\nModules:");
-
-                    foreach (var x in item.Modules)
-                        Console.WriteLine($"{x}");
-
-                    Console.Write($"\n");
-                    return item;
-                }     
-            }
-            return null;
+            return NavigateCourses();
         }
 
         public void AddModule()
