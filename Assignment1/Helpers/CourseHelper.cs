@@ -223,7 +223,6 @@ namespace App.LearningManagement.Helpers
                         keepPaging = false;
                     }
                 }
-                return null;
             }
             return null;
         }
