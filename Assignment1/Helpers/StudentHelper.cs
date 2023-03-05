@@ -14,11 +14,14 @@ namespace App.LearningManagement.Helpers
     {
         private StudentService studentService;
         private CourseService courseService;
+        private ListNavigator<Person> studentNavigator;
 
         public StudentHelper()
         {
             studentService = StudentService.Current;
             courseService = CourseService.Current;
+
+            studentNavigator = new ListNavigator<Person>(studentService.Students);
         }
         public Person CreateStudentRecord(Person? selectedStudent = null)
         {
@@ -120,18 +123,90 @@ namespace App.LearningManagement.Helpers
             }
         }
 
+        private void NavigateStudents(string? query = null)
+        {
+            ListNavigator<Person>? currentNavigator = null;
+            if(query == null)
+            {
+                currentNavigator = studentNavigator;
+            }
+            else
+            {
+                currentNavigator = new ListNavigator<Person>(studentService.Search(query).ToList());
+            }
+
+            if(currentNavigator.HasNavigator)
+            {
+                bool keepPaging = true;
+                while (keepPaging)
+                {
+                    Console.WriteLine("Make a selection:");
+                    foreach (var pair in currentNavigator.GetCurrentPage())
+                    {
+                        Console.WriteLine($"{pair.Key}. {pair.Value}");
+                    }
+
+                    if (currentNavigator.HasPreviousPage && currentNavigator.HasNextPage)
+                    {
+                        Console.WriteLine("<- (P)revious\t(Q)uit\t(N)ext ->");
+                    }
+                    else if (currentNavigator.HasNextPage)
+                    {
+                        Console.WriteLine("   (Q)uit\t(N)ext ->");
+                    }
+                    else if (currentNavigator.HasPreviousPage)
+                    {
+                        Console.WriteLine("<- (P)revious\t(Q)uit");
+                    }
+                    else
+                    {
+                        Console.WriteLine("   (Q)uit");
+                    }
+                    var selectionStr = Console.ReadLine();
+
+                    if ((selectionStr?.Equals("P", StringComparison.InvariantCultureIgnoreCase) ?? false)
+                        || (selectionStr?.Equals("N", StringComparison.InvariantCultureIgnoreCase) ?? false)
+                        || (selectionStr?.Equals("Q", StringComparison.InvariantCultureIgnoreCase) ?? false))
+                    {
+                        if (selectionStr.Equals("P", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            currentNavigator.GoBackward();
+                        }
+                        else if (selectionStr.Equals("N", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            currentNavigator.GoForward();
+                        }
+                        else if (selectionStr.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            keepPaging = false;
+                        }
+                    }
+                    else
+                    {
+                        var selectionInt = int.Parse(selectionStr ?? "0");
+
+                        Console.WriteLine("Student Course List:");
+                        courseService.Courses.Where(c => c.Roster.Any(s => s.Id == selectionInt)).ToList().ForEach(Console.WriteLine);
+                        keepPaging = false;
+                    }
+                }
+            }
+        }
+
         public void ListStudents()
         {
-            studentService.Students.ForEach(Console.WriteLine);
+            NavigateStudents();
+            //studentService.Students.ForEach(Console.WriteLine);
         }
 
         public void SearchStudents()
         {
-            studentService.Students.ForEach(Console.WriteLine);
+            //studentService.Students.ForEach(Console.WriteLine);
             Console.WriteLine("Enter student name to search:");
             var query = Console.ReadLine() ?? string.Empty;
 
-            studentService.Search(query).ToList().ForEach(Console.WriteLine);
+            //studentService.Search(query).ToList().ForEach(Console.WriteLine);
+            NavigateStudents(query);
         }
 
         public void AddStudents()
@@ -222,8 +297,9 @@ namespace App.LearningManagement.Helpers
                 Console.WriteLine("Which assignment to submit to?");
                 selectedCourse.Assignments.ForEach(Console.WriteLine);
                 var choice = int.Parse(Console.ReadLine() ?? "-1");
+                var response = "Y";
 
-                if (choice >= 0)
+                while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
                 {
                     var assignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == choice);
 
@@ -231,7 +307,7 @@ namespace App.LearningManagement.Helpers
 
                     foreach (Person x in selectedCourse.Roster)
                     {
-                        if(x is Student)
+                        if (x is Student)
                             Console.WriteLine(x);
                     }
 
@@ -251,6 +327,9 @@ namespace App.LearningManagement.Helpers
                         else
                             Console.WriteLine("Not a student!");
                     }
+
+                    Console.WriteLine("Add another student submission? (y/n)");
+                    response = Console.ReadLine() ?? string.Empty;
                 }
             }
         }
@@ -272,28 +351,36 @@ namespace App.LearningManagement.Helpers
                 if (choice >= 0)
                 {
                     var assignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == choice);
+                    var response = "Y";
 
-                    Console.WriteLine("Which student's submission should be updated?");
-
-                    foreach (var i in assignment.Submissions)
+                    while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        Console.Write($"{i}");
-                        Console.Write($" ({i.Grades[assignment.Id]})\n");
-                    }
 
-                    var Schoice = int.Parse(Console.ReadLine() ?? "-1");
+                        Console.WriteLine("Which student's submission should be updated?");
 
-                    if (Schoice >= 0)
-                    {
-                        var submission = (Student)selectedCourse.Roster.FirstOrDefault(r => r.Id == Schoice);
-                        if (submission is Student)
+                        foreach (var i in assignment.Submissions)
                         {
-                            Console.WriteLine($"Enter grade for submission (Max: {assignment.TotalAvailablePoints}):");
-                            var grade = int.Parse(Console.ReadLine() ?? "-1");
-                            submission.Grades[assignment.Id] = grade;
+                            Console.Write($"{i}");
+                            Console.Write($" ({i.Grades[assignment.Id]})\n");
                         }
-                        else
-                            Console.WriteLine("Not a student!");
+
+                        var Schoice = int.Parse(Console.ReadLine() ?? "-1");
+
+                        if (Schoice >= 0)
+                        {
+                            var submission = (Student)selectedCourse.Roster.FirstOrDefault(r => r.Id == Schoice);
+                            if (submission is Student)
+                            {
+                                Console.WriteLine($"Enter grade for submission (Max: {assignment.TotalAvailablePoints}):");
+                                var grade = int.Parse(Console.ReadLine() ?? "-1");
+                                submission.Grades[assignment.Id] = grade;
+                            }
+                            else
+                                Console.WriteLine("Not a student!");
+                        }
+
+                        Console.WriteLine("Update another student submission? (y/n)");
+                        response = Console.ReadLine() ?? string.Empty;
                     }
                 }
             }
@@ -344,6 +431,7 @@ namespace App.LearningManagement.Helpers
 
         public void ListStudentCourse()
         {
+            studentService.Students.ForEach(Console.WriteLine);
             Console.WriteLine("Enter student ID:");
             var selectionStr = Console.ReadLine();
             var selectionInt = int.Parse(selectionStr ?? "0");
