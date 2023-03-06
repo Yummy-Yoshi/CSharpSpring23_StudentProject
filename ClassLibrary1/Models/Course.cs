@@ -2,6 +2,7 @@
 {
     public class Course
     {
+        public int CreditHours { get; set; }
         public string Code { get; set; }
 
         public string Name { get; set; }
@@ -18,6 +19,7 @@
 
         public Course()
         {
+            CreditHours = 0;
             Code = string.Empty;
             Name = string.Empty;
             Description = string.Empty;
