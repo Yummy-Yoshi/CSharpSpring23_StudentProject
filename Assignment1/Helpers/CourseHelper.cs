@@ -247,7 +247,7 @@ namespace App.LearningManagement.Helpers
                                 foreach (var x in item.Modules)
                                     Console.WriteLine($"{x}");
 
-                                Console.WriteLine("\n\nAnnouncements:");
+                                Console.WriteLine("\nAnnouncements:");
 
                                 foreach (var x in item.Announcements)
                                     Console.WriteLine($"{x}");
@@ -577,6 +577,93 @@ namespace App.LearningManagement.Helpers
                     response = Console.ReadLine() ?? string.Empty;
                 }
             } 
+        }
+
+        public void UpdateAnnouncement()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+            var response = "Y";
+
+            while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+                if (selectedCourse != null)
+                {
+                    Console.WriteLine("Choose an announcement to update:");
+                    selectedCourse.Announcements.ForEach(Console.WriteLine);
+                    var selectionStr = Console.ReadLine() ?? string.Empty;
+                    var selectionInt = int.Parse(selectionStr);
+                    var selectedAnnouncement = selectedCourse.Announcements.FirstOrDefault(a => a.Id == selectionInt);
+                    if (selectedAnnouncement != null)
+                    {
+                        var index = selectedCourse.Announcements.IndexOf(selectedAnnouncement);
+                        selectedCourse.Announcements.RemoveAt(index);
+
+                        Console.WriteLine("Who is posting this?");
+                        foreach (Person x in selectedCourse.Roster)
+                        {
+                            if (x is Instructor || x is TeachingAssistant)
+                                Console.WriteLine(x);
+                        }
+                        var choice = int.Parse(Console.ReadLine() ?? "-1");
+
+                        if (choice >= 0)
+                        {
+                            var poster = selectedCourse.Roster.FirstOrDefault(r => r.Id == choice);
+                            if (poster is not Student && poster != null)
+                            {
+                                Console.WriteLine("Enter title for announcement:");
+                                var title = Console.ReadLine() ?? string.Empty;
+
+                                Console.WriteLine("Enter announcement information:");
+                                var info = Console.ReadLine() ?? string.Empty;
+
+                                var annoucement = new Announcement
+                                {
+                                    Title = title,
+                                    Poster = poster,
+                                    Info = info
+                                };
+                                selectedCourse.Announcements.Insert(index, annoucement);
+                            }
+                            else
+                                Console.WriteLine("Not an instructor or teaching assistant!");
+                        }
+                    }
+                    Console.WriteLine("Update another announcement? (y/n)");
+                    response = Console.ReadLine() ?? string.Empty;
+                }
+            }
+        }
+
+        public void RemoveAnnouncement()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+            var response = "Y";
+
+            while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+                if (selectedCourse != null)
+                {
+                    Console.WriteLine("Choose an announcement to remove:");
+                    selectedCourse.Announcements.ForEach(Console.WriteLine);
+                    var selectionStr = Console.ReadLine() ?? string.Empty;
+                    var selectionInt = int.Parse(selectionStr);
+                    var selectedAnnouncement = selectedCourse.Announcements.FirstOrDefault(a => a.Id == selectionInt);
+                    if (selectedAnnouncement != null)
+                    {
+                        var index = selectedCourse.Announcements.IndexOf(selectedAnnouncement);
+                        selectedCourse.Announcements.RemoveAt(index);
+                    }
+                    Console.WriteLine("Remove another announcement? (y/n)");
+                    response = Console.ReadLine() ?? string.Empty;
+                }
+            }
         }
 
         private void SetupRoster(Course c)

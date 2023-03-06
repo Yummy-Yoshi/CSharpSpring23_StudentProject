@@ -130,6 +130,8 @@ namespace App.LearningManagement
             Console.WriteLine("11. Create an assignment group");
             Console.WriteLine("12. List assignment groups for a course");
             Console.WriteLine("13. Create an announcement");
+            Console.WriteLine("14. Update an announcement");
+            Console.WriteLine("15. Delete an announcement");
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
             {
@@ -184,6 +186,14 @@ namespace App.LearningManagement
                 else if (result == 13)
                 {
                     courseHelper.CreateAnnouncement();
+                }
+                else if (result == 14)
+                {
+                    courseHelper.UpdateAnnouncement();
+                }
+                else if (result == 15)
+                {
+                    courseHelper.RemoveAnnouncement();
                 }
             }
         }

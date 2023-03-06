@@ -8,11 +8,25 @@ namespace Library.LearningManagement.Models
 {
     public class Announcement
     {
+        private static int lastId = 0;
+        private int id = 0;
+        public int Id
+        {
+            get
+            {
+                if (id == 0)
+                {
+                    id = ++lastId;
+                }
+                return id;
+            }
+        }
+
         public string Title { get; set; }
         public Person Poster { get; set; }
         public string Info { get; set; }
 
-        public virtual string Display => $"{Title}:\nPosted by:{Poster}\n\t{Info}";
+        public virtual string Display => $"{Id}. {Title}:\nPosted by: {Poster.Name}\n\t{Info}";
 
         public Announcement()
         {
