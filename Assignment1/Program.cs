@@ -62,6 +62,7 @@ namespace App.LearningManagement
             Console.WriteLine("8. Add a student's submission");
             Console.WriteLine("9. Update a student's submission");
             Console.WriteLine("10. Delete a student's submission");
+            Console.WriteLine("11. Calculate a student's weighted grade");
 
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
@@ -106,6 +107,10 @@ namespace App.LearningManagement
                 {
                     studentHelper.DeleteStudentSubmission();
                 }
+                else if (result == 11)
+                {
+                    studentHelper.CalculateAverage();
+                }
             }
 
         }
@@ -123,7 +128,6 @@ namespace App.LearningManagement
             Console.WriteLine("9. Remove a module from a course");
             Console.WriteLine("10. Update a module");
             Console.WriteLine("11. Create an assignment group");
-            Console.WriteLine("12. List assignment groups for a course");
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
             {

@@ -427,7 +427,76 @@ namespace App.LearningManagement.Helpers
                 }
             }
         }
+        public void CalculateAverage()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
 
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+            if (selectedCourse != null)
+            {
+                var response = "Y";
+                while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Console.WriteLine("Which student?");
+                    foreach (Person x in selectedCourse.Roster)
+                    {
+                        if (x is Student)
+                            Console.WriteLine(x);
+                    }
+                    var choice = int.Parse(Console.ReadLine() ?? "-1");
+
+                    if (choice >= 0)
+                    {
+                        var student = (Student)selectedCourse.Roster.FirstOrDefault(a => a.Id == choice);
+
+                        if (student != null)
+                        {
+                            double grades = 0;
+                            double total = 0;
+                            double assignments = 0;
+                            double weight = 0;
+
+                            foreach (var assignmentGroup in selectedCourse.AssignmentGroups)
+                            {
+                                grades = 0;
+                                assignments = 0;
+                                foreach (var assignment in assignmentGroup.Assignments)
+                                {
+                                    if (assignment.Submissions.FirstOrDefault(s => s.Id == student.Id) != null)
+                                    {
+                                        var students = assignment.Submissions.FirstOrDefault(s => s.Id == student.Id);
+
+                                        grades += ((students.Grades[assignment.Id]) / (double)assignment.TotalAvailablePoints);
+                                        assignments++;
+                                    }
+                                }
+                                grades = ((grades/assignments)*100) * (double)assignmentGroup.Weight;
+                                weight += (double)assignmentGroup.Weight;
+
+
+                                total += grades;
+                            }
+                            total = total / weight;
+
+                            if (!student.CourseAverage.ContainsKey(selectedCourse.Code))
+                            {
+                                student.CourseAverage.Add(selectedCourse.Code, total);
+                                Console.WriteLine($"{student.Name}'s grade in {selectedCourse.Name} is {student.CourseAverage[selectedCourse.Code]}");
+                            }
+                            else
+                            {
+                                student.CourseAverage[selectedCourse.Code] = total;
+                                Console.WriteLine($"{student.Name}'s grade in {selectedCourse.Name} is {student.CourseAverage[selectedCourse.Code]}");
+                            }
+                        }
+                    }
+                    Console.WriteLine("Calculate more student grades? (y/n)");
+                    response = Console.ReadLine() ?? string.Empty;
+                }
+            }
+        }
 
         public void ListStudentCourse()
         {

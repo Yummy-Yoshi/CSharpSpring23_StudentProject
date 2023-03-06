@@ -2,6 +2,7 @@
 using Library.LearningManagement.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
@@ -223,6 +224,7 @@ namespace App.LearningManagement.Helpers
                                         Console.Write($"\n\t{i}");
                                         Console.Write($" ({i.Grades[x.Id]})");
                                     }
+                                    Console.Write($"\n");
                                 }
 
                                 Console.WriteLine("\n\nModules:");
@@ -506,7 +508,6 @@ namespace App.LearningManagement.Helpers
                 selectedCourse.AssignmentGroups.ForEach(Console.WriteLine);
             }
         }
-
 
         private void SetupRoster(Course c)
         {
