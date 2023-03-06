@@ -65,6 +65,21 @@ namespace App.LearningManagement.Helpers
 
             if (!isNewCourse)
             {
+                Console.WriteLine("Update credit hours? (y/n):");
+                choice = Console.ReadLine() ?? "N";
+            }
+            else
+            {
+                choice = "Y";
+            }
+            if (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine("Enter number of credit hours:");
+                selectedCourse.CreditHours = Convert.ToInt32(Console.ReadLine());
+            }
+
+            if (!isNewCourse)
+            {
                 Console.WriteLine("Update the course name? (y/n):");
                 choice = Console.ReadLine() ?? "N";
             }
@@ -204,7 +219,7 @@ namespace App.LearningManagement.Helpers
                         {
                             if (item.Code == selectionStr)
                             {
-                                Console.WriteLine($"{item.Code} - {item.Name}\n{item.Description}\n");
+                                Console.WriteLine($"{item.Code} - {item.Name} ({item.CreditHours} Credits)\n{item.Description}\n");
 
                                 Console.WriteLine("Roster:");
 
