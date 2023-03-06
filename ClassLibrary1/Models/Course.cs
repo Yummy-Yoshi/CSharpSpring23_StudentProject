@@ -17,6 +17,8 @@
 
         public List<Module> Modules { get; set; }
 
+        public List<Announcement> Announcements { get; set; }
+
         public Course()
         {
             CreditHours = 0;
@@ -27,6 +29,7 @@
             Assignments = new List<Assignment>();
             AssignmentGroups = new List<AssignmentGroup>();
             Modules = new List<Module>();
+            Announcements = new List<Announcement>();
         }
 
         public virtual string Display => $"{Code} - {Name}";

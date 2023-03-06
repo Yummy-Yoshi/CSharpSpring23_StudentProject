@@ -65,21 +65,6 @@ namespace App.LearningManagement.Helpers
 
             if (!isNewCourse)
             {
-                Console.WriteLine("Update credit hours? (y/n):");
-                choice = Console.ReadLine() ?? "N";
-            }
-            else
-            {
-                choice = "Y";
-            }
-            if (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
-            {
-                Console.WriteLine("Enter number of credit hours:");
-                selectedCourse.CreditHours = Convert.ToInt32(Console.ReadLine());
-            }
-
-            if (!isNewCourse)
-            {
                 Console.WriteLine("Update the course name? (y/n):");
                 choice = Console.ReadLine() ?? "N";
             }
@@ -91,6 +76,21 @@ namespace App.LearningManagement.Helpers
             {
                 Console.WriteLine("Enter class name:");
                 selectedCourse.Name = Console.ReadLine() ?? string.Empty;
+            }
+
+            if (!isNewCourse)
+            {
+                Console.WriteLine("Update credit hours? (y/n):");
+                choice = Console.ReadLine() ?? "N";
+            }
+            else
+            {
+                choice = "Y";
+            }
+            if (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine("Enter number of credit hours:");
+                selectedCourse.CreditHours = int.Parse(Console.ReadLine() ?? "0");
             }
 
             if (!isNewCourse)
@@ -242,12 +242,17 @@ namespace App.LearningManagement.Helpers
                                     Console.Write($"\n");
                                 }
 
-                                Console.WriteLine("\n\nModules:");
+                                Console.WriteLine("\nModules:");
 
                                 foreach (var x in item.Modules)
                                     Console.WriteLine($"{x}");
 
+                                Console.WriteLine("\n\nAnnouncements:");
+
+                                foreach (var x in item.Announcements)
+                                    Console.WriteLine($"{x}");
                                 Console.Write($"\n");
+
                                 return item;
                             }
                         }
@@ -482,7 +487,7 @@ namespace App.LearningManagement.Helpers
                 Console.WriteLine("Enter assignment group name:");
                 var name = Console.ReadLine() ?? string.Empty;
 
-                Console.WriteLine("Enter assignment group weight:");
+                Console.WriteLine("Enter assignment group weight(%):");
                 decimal weight = decimal.Parse(Console.ReadLine() ?? "100");
                 var assignmentGroup = new AssignmentGroup();
                 var response = "Y";
@@ -522,6 +527,56 @@ namespace App.LearningManagement.Helpers
             {
                 selectedCourse.AssignmentGroups.ForEach(Console.WriteLine);
             }
+        }
+
+        public void CreateAnnouncement()
+        {
+            Console.WriteLine("Enter code for the course");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+            var response = "Y";
+
+            while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection));
+                if (selectedCourse != null)
+                {
+                    Console.WriteLine("Who is posting this?");
+                    foreach (Person x in selectedCourse.Roster)
+                    {
+                        if (x is Instructor || x is TeachingAssistant)
+                            Console.WriteLine(x);
+                    }
+                    var choice = int.Parse(Console.ReadLine() ?? "-1");
+
+                    if (choice >= 0)
+                    {
+                        var poster = selectedCourse.Roster.FirstOrDefault(r => r.Id == choice);
+                        if (poster is not Student && poster != null)
+                        {
+                            Console.WriteLine("Enter title for announcement:");
+                            var title = Console.ReadLine() ?? string.Empty;
+
+                            Console.WriteLine("Enter announcement information:");
+                            var info = Console.ReadLine() ?? string.Empty;
+
+                            var annoucement = new Announcement
+                            {
+                                Title = title,
+                                Poster = poster,
+                                Info = info
+                            };
+
+                            selectedCourse.Announcements.Add(annoucement);
+                        }
+                        else
+                            Console.WriteLine("Not an instructor or teaching assistant!");
+                    }
+
+                    Console.WriteLine("Make another announcement? (y/n)");
+                    response = Console.ReadLine() ?? string.Empty;
+                }
+            } 
         }
 
         private void SetupRoster(Course c)
