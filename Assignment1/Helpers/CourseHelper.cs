@@ -672,7 +672,7 @@ namespace App.LearningManagement.Helpers
 
             Console.WriteLine("Enter student in roster? (y/n):");
             string response = Console.ReadLine() ?? string.Empty;
-            while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase) || studentService.Students.Any(s => !c.Roster.Any(s2 => s2.Id == s.Id)))
+            while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
             {
                 var newStudent = studenthelper.CreateStudentRecord();
                 c.Roster.Add(newStudent);

@@ -63,6 +63,7 @@ namespace App.LearningManagement
             Console.WriteLine("9. Update a student's submission");
             Console.WriteLine("10. Delete a student's submission");
             Console.WriteLine("11. Calculate a student's weighted grade");
+            Console.WriteLine("12. Calculate a student's GPA");
 
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
@@ -110,6 +111,10 @@ namespace App.LearningManagement
                 else if (result == 11)
                 {
                     studentHelper.CalculateAverage();
+                }
+                else if (result == 12)
+                {
+                    studentHelper.CalculateGPA();
                 }
             }
 

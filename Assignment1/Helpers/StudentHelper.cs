@@ -498,6 +498,76 @@ namespace App.LearningManagement.Helpers
             }
         }
 
+        public void CalculateGPA()
+        {
+            var response = "Y";
+            while (response.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine("Which student?");
+                foreach (Person x in studentService.Students)
+                {
+                    if (x is Student)
+                        Console.WriteLine(x);
+                }
+                var choice = int.Parse(Console.ReadLine() ?? "-1");
+
+                if (choice >= 0)
+                {
+                    var student = (Student?)studentService.Students.FirstOrDefault(a => a.Id == choice);
+
+                    if (student != null)
+                    {
+                        double points = 0;
+                        double totalHours = 0;
+                        double hours = 0;
+                        double totalPoints = 0;
+                            
+                        foreach (var assignment in student.CourseAverage)
+                        {
+                            var course = courseService.Courses.FirstOrDefault(a => a.Code == assignment.Key);
+
+                            if (course != null)
+                            {
+                                hours = course.CreditHours;
+
+                                if (assignment.Value >= 93)
+                                    points = 4.0;
+                                else if (assignment.Value >= 90)
+                                    points = 3.7;
+                                else if (assignment.Value >= 87)
+                                    points = 3.3;
+                                else if (assignment.Value >= 83)
+                                    points = 3.0;
+                                else if (assignment.Value >= 80)
+                                    points = 2.7;
+                                else if (assignment.Value >= 77)
+                                    points = 2.3;
+                                else if (assignment.Value >= 73)
+                                    points = 2.0;
+                                else if (assignment.Value >= 70)
+                                    points = 1.7;
+                                else if (assignment.Value >= 67)
+                                    points = 1.3;
+                                else if (assignment.Value >= 65)
+                                    points = 1.0;
+                            }
+
+                            totalPoints += hours * points;
+                            totalHours += hours;
+                        }
+                        
+                        student.GPA = totalPoints/totalHours;
+                        Console.WriteLine($"{student.Name}'s GPA is is {student.GPA}");
+                    }
+                }
+
+                Console.WriteLine("Calculate more student grades? (y/n)");
+                response = Console.ReadLine() ?? string.Empty;
+            }           
+        }
+    
+
+
         public void ListStudentCourse()
         {
             studentService.Students.ForEach(Console.WriteLine);

@@ -11,12 +11,14 @@ namespace Library.LearningManagement.Models
         public Dictionary<int, double> Grades { get; set; }
         public Dictionary<string, double> CourseAverage { get; set; }
 
+        public double GPA { get; set; }
         public PersonClassification Classification { get; set; }
 
         public Student()
         {
             Grades = new Dictionary<int, double>();
             CourseAverage = new Dictionary<string, double>();
+            GPA = 0.0;
         }
 
         public override string ToString()
