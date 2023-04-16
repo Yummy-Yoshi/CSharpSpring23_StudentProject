@@ -3,7 +3,21 @@
     public class Course
     {
         public int CreditHours { get; set; }
-        public string Code { get; set; }
+        public string Code
+        {
+            get
+            {
+                return $"{Prefix}{Id}";
+            }
+        }
+
+        private static int lastId = 0;
+
+        public string Prefix { get; set; }
+        public int Id
+        {
+            get; private set;
+        }
 
         public string Name { get; set; }
 
@@ -22,7 +36,6 @@
         public Course()
         {
             CreditHours = 0;
-            Code = string.Empty;
             Name = string.Empty;
             Description = string.Empty;
             Roster = new List<Person>();
@@ -30,6 +43,7 @@
             AssignmentGroups = new List<AssignmentGroup>();
             Modules = new List<Module>();
             Announcements = new List<Announcement>();
+            Id = ++lastId;
         }
 
         public virtual string Display => $"{Code} - {Name}";

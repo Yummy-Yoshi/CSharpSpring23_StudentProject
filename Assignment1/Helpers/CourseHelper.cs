@@ -47,13 +47,13 @@ namespace App.LearningManagement.Helpers
                 var entering = true;
                 while(entering)
                 {
-                    Console.WriteLine("Enter class code:");
+                    Console.WriteLine("Enter class prefix:");
                     var codeChoice = Console.ReadLine() ?? string.Empty;
 
                     var code = courseService.Courses.FirstOrDefault(s => s.Code.Equals(codeChoice, StringComparison.CurrentCultureIgnoreCase));
                     if (code == null)
                     {
-                        selectedCourse.Code = codeChoice;
+                        selectedCourse.Prefix = codeChoice;
                         entering = false;
                     }
                     else
