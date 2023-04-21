@@ -13,7 +13,7 @@
 
         private static int lastId = 0;
 
-        public string Prefix { get; set; }
+        public string? Prefix { get; set; }
         public int Id
         {
             get; private set;
