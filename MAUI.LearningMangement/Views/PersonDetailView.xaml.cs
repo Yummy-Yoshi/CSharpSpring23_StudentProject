@@ -4,11 +4,17 @@ using MAUI.LearningMangement.ViewModels;
 
 namespace MAUI.LearningMangement.Views;
 
+[QueryProperty(nameof(PersonId), "personId")]   
 public partial class PersonDetailView : ContentPage
 {
     public PersonDetailView()
     {
         InitializeComponent();
+    }
+
+    public int PersonId
+    {
+        set; get;
     }
 
     private void OkClick(object sender, EventArgs e)
@@ -22,7 +28,7 @@ public partial class PersonDetailView : ContentPage
 
     private void OnArriving(object sender, NavigatedToEventArgs e)
     {
-        BindingContext = new PersonDetailViewModel();
+        BindingContext = new PersonDetailViewModel(PersonId);
 
     }
 }
