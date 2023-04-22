@@ -21,6 +21,8 @@ namespace MAUI.LearningMangement.ViewModels
             }
         }
 
+        public Person SelectedPerson { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -32,6 +34,14 @@ namespace MAUI.LearningMangement.ViewModels
         public void AddClick(Shell s)
         {
             s.GoToAsync("//PersonDetail");
+        }
+
+        public void RemoveClick()
+        {
+            if (SelectedPerson == null) { return; }
+
+            StudentService.Current.Remove(SelectedPerson);
+            RefreshView();
         }
 
         public void RefreshView()
