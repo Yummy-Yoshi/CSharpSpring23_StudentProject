@@ -1,4 +1,5 @@
-﻿using Library.LearningManagement.Models;
+﻿using Library.LearningManagement.Database;
+using Library.LearningManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,19 @@ namespace Library.LearningManagement.Services
 {
     public class StudentService
     {
-        private List<Person> studentList;
         private static StudentService? _instance;
+
+        public IEnumerable<Student?> Students
+        {
+            get
+            {
+                return FakeDatabase.People.Where(p => p is Student).Select(p => p as Student);
+            }
+        }
 
         private StudentService()
         {
-            studentList = new List<Person>();
+            
         }
 
         public static StudentService Current
@@ -31,21 +39,12 @@ namespace Library.LearningManagement.Services
 
         public void Add(Person student)
         {
-            studentList.Add(student);
+            FakeDatabase.People.Add(student);
         }
 
-
-        public List<Person> Students
+        public IEnumerable<Student?> Search(string query)
         {
-            get
-            {
-                return studentList;
-            }
-        }
-
-        public IEnumerable<Person> Search(string query)
-        {
-            return studentList.Where(s => s.Name.ToUpper().Contains(query.ToUpper())
+            return Students.Where(s => (s != null) && s.Name.ToUpper().Contains(query.ToUpper())
                 || s.Id.ToString().Contains(query.ToUpper()));
         }
     }
