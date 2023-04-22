@@ -34,6 +34,6 @@ public partial class PersonDetailView : ContentPage
                 break;
         }
 		StudentService.Current.Add(new Student { Name = context.Name, Classification= classification });
-		Shell.Current.GoToAsync("//MainPage");
+		Shell.Current.GoToAsync("//Instructor");
 	}
 }
