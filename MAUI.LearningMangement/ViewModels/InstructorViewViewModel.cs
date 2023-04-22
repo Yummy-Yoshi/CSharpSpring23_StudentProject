@@ -33,7 +33,8 @@ namespace MAUI.LearningMangement.ViewModels
 
         public void AddClick(Shell s)
         {
-            s.GoToAsync("//PersonDetail");
+            var idParam = SelectedPerson?.Id ?? 0;
+            s.GoToAsync($"//PersonDetail?personId={idParam}");
         }
 
         public void RemoveClick()

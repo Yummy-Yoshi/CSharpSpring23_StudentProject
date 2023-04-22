@@ -12,11 +12,15 @@
             HorizontalOptions="Center" />
         <ListView
             ItemsSource="{Binding People}"
-            SelectedItem="{Binding SelectedPerson, Mode=TwoWay}">
+            SelectedItem="{Binding SelectedPerson}">
         </ListView>
         <Button
             Text="Add Enrollment"
             Clicked="AddEnrollmentClick"
+            />
+        <Button
+            Text="Edit Enrollment"
+            Clicked="EditEnrollmentClick"
             />
         <Button
             Text="Remove Enrollment"
