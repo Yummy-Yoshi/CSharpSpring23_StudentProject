@@ -1,4 +1,5 @@
-﻿using Library.LearningManagement.Models;
+﻿using Library.LearningManagement.Database;
+using Library.LearningManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ namespace Library.LearningManagement.Services
 {
     public class CourseService
     {
-        private List<Course> courseList;
         private static CourseService? _instance;
 
         public static CourseService Current
@@ -27,25 +27,25 @@ namespace Library.LearningManagement.Services
 
         private CourseService()
         {
-            courseList = new List<Course>();
+ 
         }
 
         public void Add(Course course)
         {
-            courseList.Add(course);
+            FakeDatabase.Courses.Add(course);
         }
 
         public List<Course> Courses
         {
             get
             {
-                return courseList;
+                return FakeDatabase.Courses;
             }
         }
 
         public void AddStudent(Course course, Person person)
         {
-            foreach (var item in courseList)
+            foreach (var item in FakeDatabase.Courses)
             {
                 if (item.Name == course.Name)
                 {
@@ -56,7 +56,7 @@ namespace Library.LearningManagement.Services
 
         public void RemoveStudent(Course course, Person person)
         {
-            foreach (var item in courseList)
+            foreach (var item in FakeDatabase.Courses)
             {
                 if (item.Name == course.Name)
                 {
@@ -67,7 +67,7 @@ namespace Library.LearningManagement.Services
 
         public void AddAssignment(Course course, Assignment assignment)
         {
-            foreach (var item in courseList)
+            foreach (var item in FakeDatabase.Courses)
             {
                 if (item.Name == course.Name)
                 {
