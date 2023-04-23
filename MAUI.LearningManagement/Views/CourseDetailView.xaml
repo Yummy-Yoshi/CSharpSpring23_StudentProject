@@ -55,9 +55,45 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Label Text="Not Enrolled" Grid.Column="0"></Label>
-            <Label Text="Buttons" Grid.Column="1"></Label>
-            <Label Text="Enrolled" Grid.Column="2"></Label>
+            <VerticalStackLayout>
+                <Label Text="Students" 
+                       Grid.Column="0"
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Center">
+                </Label>
+                <ListView
+                    ItemsSource="{Binding People}"
+                    SelectedItem="{Binding SelectedPerson}"
+                    Grid.Column="0">
+                </ListView>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Buttons"
+                       Grid.Column="1"
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Center">
+                </Label>
+                <Button 
+                    Text="Enroll student to course"
+                    Clicked="AddEnrollmentClick"
+                    />
+                <Button
+                    Text="Drop Student from course"
+                    Clicked="RemoveEnrollmentClick"
+                    />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="2">
+                <Label Text="Enrolled" 
+                       Grid.Column="2"
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Center">
+                </Label>
+                <ListView
+                        ItemsSource="{Binding Students}"
+                        SelectedItem="{Binding SelectedPerson}"
+                        Grid.Column="0">
+                </ListView>
+            </VerticalStackLayout>
         </Grid>
 
         <Button Text="Ok"

@@ -33,4 +33,14 @@ public partial class CourseDetailView : ContentPage
     {
         BindingContext = new CourseDetailViewModel(CourseId);
     }
+
+    private void AddEnrollmentClick(object sender, EventArgs e)
+    {
+        (BindingContext as CourseDetailViewModel).AddEnrollmentClick(CourseId);
+    }
+
+    private void RemoveEnrollmentClick(object sender, EventArgs e)
+    {
+        (BindingContext as CourseDetailViewModel).RemoveEnrollmentClick(CourseId);
+    }
 }
