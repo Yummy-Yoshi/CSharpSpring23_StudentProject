@@ -41,12 +41,50 @@
 
         </Grid>
 
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label 
+                Text="Room"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                Grid.Row="0"
+                Grid.Column="0"
+                />
+            <Entry 
+                Text="{Binding Path=Room, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="0"
+                ></Entry>
+            <Label 
+                Text="Description"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                Grid.Row="0"
+                Grid.Column="1"/>
+            <Entry
+                Text="{Binding Path=Description, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="1">
+            </Entry>
+        </Grid>
 
-        <Label 
-            Text="Description"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Entry Text="{Binding Path=Description, Mode=TwoWay}"></Entry>
+        <HorizontalStackLayout RadioButtonGroup.GroupName="Semesters"
+            RadioButtonGroup.SelectedValue="{Binding SemesterString}"
+            HorizontalOptions="Center">
+            <RadioButton Content="Spring"
+                        Value="P"/>
+            <RadioButton Content="Summer"
+                        Value="S"/>
+            <RadioButton Content="Fall"
+                        Value="F"/>
+        </HorizontalStackLayout>
 
         <!--STUDENT ROSTER-->
         <Grid>

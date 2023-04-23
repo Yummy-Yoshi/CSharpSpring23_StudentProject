@@ -4,6 +4,7 @@ using Library.LearningManagement.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using static Library.LearningManagement.Models.Course;
 
 namespace MAUI.LearningManagement.ViewModels
 {
@@ -19,6 +20,10 @@ namespace MAUI.LearningManagement.ViewModels
         public int CourseCode { get;}
 
         public List<Person> Roster { get; set; }
+
+        public string SemesterString { get; set; }
+
+        public string Room { get; set; }
         /*
         public string Name
         {
@@ -62,16 +67,17 @@ namespace MAUI.LearningManagement.ViewModels
                 Description = course.Description;
                 Prefix = course.Prefix;
                 Id = course.Id;
-
-
-
                 Roster= course.Roster;
+                SemesterString = ClassToString(course.Semester);
+                Room = course.Room;
             }
 
             NotifyPropertyChanged(nameof(Name));
             NotifyPropertyChanged(nameof(Description));
             NotifyPropertyChanged(nameof(Prefix));
             NotifyPropertyChanged(nameof(Roster));
+            NotifyPropertyChanged(nameof(SemesterString));
+            NotifyPropertyChanged(nameof(Room));
         }
 
         private Course course;
@@ -81,7 +87,7 @@ namespace MAUI.LearningManagement.ViewModels
             if (Id <= 0)
             {
                 //CourseService.Current.Add(new Course { Name = Name, Description = Description, Prefix = Prefix });
-                var course = new Course { Name = Name, Description = Description, Prefix = Prefix };
+                var course = new Course { Name = Name, Description = Description, Prefix = Prefix, Semester = StringToClass(SemesterString), Room = Room };
                 course.Roster.Add(SelectedPerson);
                 CourseService.Current.Add(course);
             }
@@ -91,6 +97,8 @@ namespace MAUI.LearningManagement.ViewModels
                 refToUpdate.Name = Name;
                 refToUpdate.Description = Description;
                 refToUpdate.Prefix = Prefix;
+                refToUpdate.Semester= StringToClass(SemesterString);
+                refToUpdate.Room = Room;
             }
             Shell.Current.GoToAsync("//Instructor");
         }
@@ -157,6 +165,45 @@ namespace MAUI.LearningManagement.ViewModels
             }
             //s.GoToAsync($"//PersonDetail?personId={idParam}");
             AddCourse();
+        }
+
+        private CourseSemester StringToClass(string s)
+        {
+            CourseSemester semester;
+            switch (s)
+            {
+                case "S":
+                    semester = CourseSemester.Summer;
+                    break;
+                case "F":
+                    semester = CourseSemester.Fall;
+                    break;
+                case "P":
+                default:
+                    semester = CourseSemester.Spring;
+                    break;
+            }
+
+            return semester;
+        }
+
+        private string ClassToString(CourseSemester pc)
+        {
+            var semesterString = string.Empty;
+            switch (pc)
+            {
+                case CourseSemester.Summer:
+                    semesterString = "S";
+                    break;
+                case CourseSemester.Fall:
+                    semesterString = "F";
+                    break;
+                case CourseSemester.Spring:
+                default:
+                    semesterString = "P";
+                    break;
+            }
+            return semesterString;
         }
 
     }
