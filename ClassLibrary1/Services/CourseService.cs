@@ -12,16 +12,11 @@ namespace Library.LearningManagement.Services
     {
         private static CourseService? _instance;
 
-        public static CourseService Current
+        public IEnumerable<Course?> Courses
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = new CourseService();
-                }
-
-                return _instance;
+                return FakeDatabase.Courses.Where(c => c is Course).Select(c => c as Course);
             }
         }
 
@@ -30,17 +25,26 @@ namespace Library.LearningManagement.Services
  
         }
 
+        public static CourseService Current
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new CourseService();
+                }
+                return _instance;
+            }
+        }
+
         public void Add(Course course)
         {
             FakeDatabase.Courses.Add(course);
         }
 
-        public List<Course> Courses
+        public void Remove(Course course)
         {
-            get
-            {
-                return FakeDatabase.Courses;
-            }
+            FakeDatabase.Courses.Remove(course);
         }
 
         public void AddStudent(Course course, Person person)
@@ -76,7 +80,12 @@ namespace Library.LearningManagement.Services
             }
         }
 
-        public IEnumerable<Course> Search(string query)
+        public Course? GetById(int id)
+        {
+            return FakeDatabase.Courses.FirstOrDefault(c => c.Id == id);
+        }
+
+        public IEnumerable<Course?> Search(string query)
         {
             return Courses.Where(s => s.Name.ToUpper().Contains(query.ToUpper())
                 || s.Description.ToUpper().Contains(query.ToUpper())
