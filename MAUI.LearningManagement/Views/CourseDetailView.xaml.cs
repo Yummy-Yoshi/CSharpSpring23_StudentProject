@@ -8,6 +8,7 @@ public partial class CourseDetailView : ContentPage
     public CourseDetailView()
     {
         InitializeComponent();
+        BindingContext = new CourseDetailViewModel();
     }
 
     public int CourseId
@@ -39,8 +40,14 @@ public partial class CourseDetailView : ContentPage
         (BindingContext as CourseDetailViewModel).AddEnrollmentClick(CourseId);
     }
 
+    private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+    {
+        (BindingContext as CourseDetailViewModel).RefreshView();
+    }
+
     private void RemoveEnrollmentClick(object sender, EventArgs e)
     {
         (BindingContext as CourseDetailViewModel).RemoveEnrollmentClick(CourseId);
     }
 }
+

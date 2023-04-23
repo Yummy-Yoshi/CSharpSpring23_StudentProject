@@ -8,7 +8,7 @@ using static Library.LearningManagement.Models.Course;
 
 namespace MAUI.LearningManagement.ViewModels
 {
-    class CourseDetailViewModel
+    class CourseDetailViewModel : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -17,7 +17,7 @@ namespace MAUI.LearningManagement.ViewModels
 
         public int Id { get; set; }
 
-        public int CourseCode { get;}
+        public int CourseCode { get; }
 
         public List<Person> Roster { get; set; }
 
@@ -47,7 +47,7 @@ namespace MAUI.LearningManagement.ViewModels
             get => course?.Code ?? string.Empty;
         }
         */
-        public CourseDetailViewModel(int id=0)
+        public CourseDetailViewModel(int id = 0)
         {
             if (id > 0)
             {
@@ -67,7 +67,7 @@ namespace MAUI.LearningManagement.ViewModels
                 Description = course.Description;
                 Prefix = course.Prefix;
                 Id = course.Id;
-                Roster= course.Roster;
+                Roster = course.Roster;
                 SemesterString = ClassToString(course.Semester);
                 Room = course.Room;
             }
@@ -83,7 +83,7 @@ namespace MAUI.LearningManagement.ViewModels
         private Course course;
 
         public void AddCourse()
-         {
+        {
             if (Id <= 0)
             {
                 //CourseService.Current.Add(new Course { Name = Name, Description = Description, Prefix = Prefix });
@@ -97,7 +97,7 @@ namespace MAUI.LearningManagement.ViewModels
                 refToUpdate.Name = Name;
                 refToUpdate.Description = Description;
                 refToUpdate.Prefix = Prefix;
-                refToUpdate.Semester= StringToClass(SemesterString);
+                refToUpdate.Semester = StringToClass(SemesterString);
                 refToUpdate.Room = Room;
             }
             Shell.Current.GoToAsync("//Instructor");
@@ -117,7 +117,7 @@ namespace MAUI.LearningManagement.ViewModels
                 return new ObservableCollection<Person>(StudentService.Current.Students);
             }
         }
-        
+
         public ObservableCollection<Person> Students
         {
             get
@@ -129,7 +129,7 @@ namespace MAUI.LearningManagement.ViewModels
                     //FakeDatabase.Courses.Where(c => c is Course).Where(p => p is )
                     //return new ObservableCollection<Person>(StudentService.Current.Students);
 
-                    
+
 
                     return new ObservableCollection<Person>(refToUpdate.Roster);
 
@@ -137,6 +137,7 @@ namespace MAUI.LearningManagement.ViewModels
                 return null;
             }
         }
+
 
         public Person SelectedPerson { get; set; }
         public void AddEnrollmentClick(int courseId)
@@ -147,10 +148,10 @@ namespace MAUI.LearningManagement.ViewModels
             if (refToUpdate != null)
             {
                 CourseService.Current.AddStudent(refToUpdate, SelectedPerson);
-                NotifyPropertyChanged(nameof(Roster));
             }
             //s.GoToAsync($"//PersonDetail?personId={idParam}");
-            AddCourse();
+            //AddCourse();
+            RefreshView();
         }
 
         public void RemoveEnrollmentClick(int courseId)
@@ -161,10 +162,10 @@ namespace MAUI.LearningManagement.ViewModels
             if (refToUpdate != null)
             {
                 CourseService.Current.RemoveStudent(refToUpdate, SelectedPerson);
-                NotifyPropertyChanged(nameof(Roster));
             }
             //s.GoToAsync($"//PersonDetail?personId={idParam}");
-            AddCourse();
+            //AddCourse();
+            RefreshView();
         }
 
         private CourseSemester StringToClass(string s)
@@ -206,5 +207,10 @@ namespace MAUI.LearningManagement.ViewModels
             return semesterString;
         }
 
+        public void RefreshView()
+        {
+            NotifyPropertyChanged(nameof(People));
+            NotifyPropertyChanged(nameof(Students));
+        }
     }
 }
