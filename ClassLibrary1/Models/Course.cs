@@ -33,6 +33,10 @@
 
         public List<Announcement> Announcements { get; set; }
 
+        public CourseSemester Semester { get; set; }
+
+        public string Room { get; set; }
+
         public Course()
         {
             CreditHours = 0;
@@ -44,6 +48,7 @@
             Modules = new List<Module>();
             Announcements = new List<Announcement>();
             Id = ++lastId;
+            Room = string.Empty;
         }
 
         public virtual string Display => $"{Code} - {Name}";
@@ -51,6 +56,11 @@
         public override string ToString()
         {
             return Display;
+        }
+
+        public enum CourseSemester
+        {
+            Spring, Summer, Fall
         }
 
     }
