@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Library.LearningManagement.Models
 {
@@ -26,7 +27,7 @@ namespace Library.LearningManagement.Models
         public Person Poster { get; set; }
         public string Info { get; set; }
 
-        public virtual string Display => $"{Id}. {Title}:\nPosted by: {Poster.Name}\n\t{Info}";
+        //public virtual string Display => $"{Id}. {Title}:\nPosted by: {Poster?.Name}\n\t{Info}";
 
         public Announcement()
         {
@@ -37,7 +38,7 @@ namespace Library.LearningManagement.Models
 
         public override string ToString()
         {
-            return Display;
+            return $"[{Id}] {Title}";
         }
     }
 }

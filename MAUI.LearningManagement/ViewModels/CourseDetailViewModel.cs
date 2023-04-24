@@ -24,6 +24,8 @@ namespace MAUI.LearningManagement.ViewModels
         public string SemesterString { get; set; }
 
         public string Room { get; set; }
+
+        public List<Announcement> Announcements { get; set; }
         /*
         public string Name
         {
@@ -70,6 +72,7 @@ namespace MAUI.LearningManagement.ViewModels
                 Roster = course.Roster;
                 SemesterString = ClassToString(course.Semester);
                 Room = course.Room;
+                Announcements = course.Announcements;
             }
 
             NotifyPropertyChanged(nameof(Name));
@@ -78,6 +81,7 @@ namespace MAUI.LearningManagement.ViewModels
             NotifyPropertyChanged(nameof(Roster));
             NotifyPropertyChanged(nameof(SemesterString));
             NotifyPropertyChanged(nameof(Room));
+            NotifyPropertyChanged(nameof(Announcements));
         }
 
         private Course course;
@@ -207,10 +211,59 @@ namespace MAUI.LearningManagement.ViewModels
             return semesterString;
         }
 
+        public Announcement SelectedAnnouncement { get; set; }
+
+        public void AddAnnouncementClick(Shell s)
+        {
+            var idParam = SelectedAnnouncement?.Id ?? 0;
+            s.GoToAsync($"//AnnouncementDetail?classsId={Id}&announcementId={idParam}");
+
+        }
+
+        public void RemoveAnnouncementClick(int courseId)
+        {
+            if (SelectedAnnouncement == null) { return; }
+
+            AnnouncementService.Current.Remove(SelectedAnnouncement);
+
+            var refToUpdate = CourseService.Current.GetById(courseId);
+
+            //var idParam = SelectedPerson?.Id ?? 0;
+            if (refToUpdate != null)
+            {
+                CourseService.Current.RemoveAnnouncement(refToUpdate, SelectedAnnouncement);
+            }
+
+
+            RefreshView();
+
+        }
+
+        public ObservableCollection<Announcement>Announcement
+        {
+            get
+            {
+                if (Id > 0)
+                {
+                    var refToUpdate = CourseService.Current.GetById(Id);
+                    //FakeDatabase.People.Where(p => p is Student).Select(p => p as Student);
+                    //FakeDatabase.Courses.Where(c => c is Course).Where(p => p is )
+                    //return new ObservableCollection<Person>(StudentService.Current.Students);
+
+
+
+                    return new ObservableCollection<Announcement>(refToUpdate.Announcements);
+
+                }
+                return null;
+            }
+        }
+
         public void RefreshView()
         {
             NotifyPropertyChanged(nameof(People));
             NotifyPropertyChanged(nameof(Students));
+            NotifyPropertyChanged(nameof(Announcement));
         }
     }
 }
