@@ -49,5 +49,19 @@ public partial class CourseDetailView : ContentPage
     {
         (BindingContext as CourseDetailViewModel).RemoveEnrollmentClick(CourseId);
     }
+    private void AddAnnouncementClick(object sender, EventArgs e)
+    {
+        (BindingContext as CourseDetailViewModel).AddAnnouncementClick(Shell.Current);
+    }
+
+    private void RemoveAnnouncementClick(object sender, EventArgs e)
+    {
+        (BindingContext as CourseDetailViewModel).RemoveAnnouncementClick(CourseId);
+    }
+
+    private void EditAnnouncementClick(object sender, EventArgs e)
+    {
+        (BindingContext as CourseDetailViewModel).AddAnnouncementClick(Shell.Current);
+    }
 }
 

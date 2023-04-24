@@ -47,6 +47,29 @@ namespace Library.LearningManagement.Services
             FakeDatabase.Courses.Remove(course);
         }
 
+        public void AddAnnouncement(Course course, Announcement announcement)
+        {
+            foreach (var item in FakeDatabase.Courses)
+            {
+                if (item.Name == course.Name)
+                {
+                    item.Announcements.Add(announcement);
+                }
+            }
+        }
+
+        public void RemoveAnnouncement(Course course, Announcement announcement)
+        {
+            foreach (var item in FakeDatabase.Courses)
+            {
+                if (item.Name == course.Name)
+                {
+                    item.Announcements.Remove(announcement);
+                }
+            }
+        }
+
+
         public void AddStudent(Course course, Person person)
         {
             foreach (var item in FakeDatabase.Courses)
