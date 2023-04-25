@@ -1,4 +1,5 @@
-﻿using Library.LearningManagement.Models;
+﻿using Library.LearningManagement.Database;
+using Library.LearningManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ namespace Library.LearningManagement.Services
 {
     public class ContentService
     {
-        private List<ContentItem> contentList;
         private static ContentService? _instance;
 
         public static ContentService Current
@@ -27,20 +27,27 @@ namespace Library.LearningManagement.Services
 
         private ContentService()
         {
-            contentList = new List<ContentItem>();
+
         }
 
         public void Add(ContentItem content)
         {
-            contentList.Add(content);
+            FakeDatabase.ContentItems.Add(content);
+        }
+        public void Remove(ContentItem content)
+        {
+            FakeDatabase.ContentItems.Remove(content);
+        }
+        public ContentItem? GetById(int id)
+        {
+            return FakeDatabase.ContentItems.FirstOrDefault(c => c.Id == id);
         }
 
-
-        public List<ContentItem> Contents
+        public IEnumerable<ContentItem?> ContentItems
         {
             get
             {
-                return contentList;
+                return FakeDatabase.ContentItems.Where(c => c is ContentItem);
             }
         }
     }

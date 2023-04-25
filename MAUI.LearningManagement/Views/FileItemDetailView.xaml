@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MAUI.LearningManagement.Views.AnnouncementDetailView"
-             Title="AnnouncementDetailView"
+             x:Class="MAUI.LearningManagement.Views.FileItemDetailView"
+             Title="FileItemDetailView"
              NavigatedFrom="OnLeaving"
              NavigatedTo="OnArriving"
              >
     <VerticalStackLayout>
         <Label 
-            Text="Title"
+            Text="Name"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
-        <Entry Text="{Binding Path=Title, Mode=TwoWay}"></Entry>
+        <Entry Text="{Binding Path=Name, Mode=TwoWay}"></Entry>
         <Label 
-                Text="Poster"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-        <ListView
-                ItemsSource="{Binding People}"
-                SelectedItem="{Binding SelectedInstructor}">
-        </ListView>
-        <Label 
-            Text="Information"
+            Text="Description"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
-        <Entry Text="{Binding Path=Info, Mode=TwoWay}"></Entry>
+        <Entry Text="{Binding Path=Description, Mode=TwoWay}"></Entry>
+        <Label 
+            Text="Path"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <Entry Text="{Binding Path=Path, Mode=TwoWay}"></Entry>
         <Button
             Text="Ok"
             Clicked="OkClick"

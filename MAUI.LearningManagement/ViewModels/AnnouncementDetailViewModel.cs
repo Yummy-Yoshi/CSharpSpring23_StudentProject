@@ -45,7 +45,6 @@ namespace MAUI.LearningManagement.ViewModels
                 Id = announcement.Id;
             }
 
-
             NotifyPropertyChanged(nameof(Title));
             NotifyPropertyChanged(nameof(Poster));
             NotifyPropertyChanged(nameof(Info));
@@ -57,6 +56,11 @@ namespace MAUI.LearningManagement.ViewModels
             if (Id <= 0)
             {
                 var announcement = new Announcement { Title = Title, Poster = Poster, Info = Info };
+                if(SelectedInstructor!= null)
+                {
+                    announcement.Poster = SelectedInstructor;
+                }
+                
                 AnnouncementService.Current.Add(announcement);
 
                 var refToUpdate = CourseService.Current.GetById(CourseId);
@@ -67,6 +71,10 @@ namespace MAUI.LearningManagement.ViewModels
                 var refToUpdate = AnnouncementService.Current.GetById(Id);
                 refToUpdate.Title = Title;
                 refToUpdate.Poster = Poster;
+                if (SelectedInstructor != null)
+                {
+                    refToUpdate.Poster = SelectedInstructor;
+                }
                 refToUpdate.Info = Info;
 
                 var course = CourseService.Current.GetById(CourseId);
@@ -84,6 +92,7 @@ namespace MAUI.LearningManagement.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public Person SelectedInstructor { get; set; }
 
         public ObservableCollection<Person> People
         {

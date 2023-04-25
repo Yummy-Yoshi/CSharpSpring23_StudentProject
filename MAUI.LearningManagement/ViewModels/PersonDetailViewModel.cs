@@ -44,7 +44,18 @@ namespace MAUI.LearningManagement.ViewModels
         {
             if (Id <= 0)
             {
-                StudentService.Current.Add(new Student { Name = Name, Classification = StringToClass(ClassificationString) });
+                if(ClassificationString == "T")
+                {
+                    StudentService.Current.Add(new TeachingAssistant { Name = Name });
+                }
+                else if(ClassificationString == "I")
+                {
+                    StudentService.Current.Add(new Instructor { Name = Name });
+                }
+                else
+                {
+                    StudentService.Current.Add(new Student { Name = Name, Classification = StringToClass(ClassificationString) });
+                }
             }
             else
             {

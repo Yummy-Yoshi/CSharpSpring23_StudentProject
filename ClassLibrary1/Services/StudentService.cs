@@ -12,11 +12,11 @@ namespace Library.LearningManagement.Services
     {
         private static StudentService? _instance;
 
-        public IEnumerable<Student?> Students
+        public IEnumerable<Person?> Students
         {
             get
             {
-                return FakeDatabase.People.Where(p => p is Student).Select(p => p as Student);
+                return FakeDatabase.People.Where(p => p is Person);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Library.LearningManagement.Services
         }
 
 
-        public IEnumerable<Student?> Search(string query)
+        public IEnumerable<Person?> Search(string query)
         {
             return Students.Where(s => (s != null) && s.Name.ToUpper().Contains(query.ToUpper())
                 || s.Id.ToString().Contains(query.ToUpper()));

@@ -31,5 +31,22 @@
         Title="Announcement Detail"
         ContentTemplate="{DataTemplate local2:AnnouncementDetailView}"
         Route="AnnouncementDetail" />
+    <ShellContent
+        Title="Module Detail"
+        ContentTemplate="{DataTemplate local2:ModuleDetailView}"
+        Route="ModuleDetail" />
+    <ShellContent
+        Title="Page Item Detail"
+        ContentTemplate="{DataTemplate local2:PageItemDetailView}"
+        Route="PageItemDetail" />
+    <ShellContent
+        Title="Assignment Item Detail"
+        ContentTemplate="{DataTemplate local2:AssignmentItemDetailView}"
+        Route="AssignmentItemDetail" />
+    <ShellContent
+        Title="File Item Detail"
+        ContentTemplate="{DataTemplate local2:FileItemDetailView}"
+        Route="FileItemDetail" />
+
 
 </Shell>

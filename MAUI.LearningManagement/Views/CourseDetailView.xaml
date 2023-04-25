@@ -173,12 +173,12 @@
                            HorizontalOptions="Center">
                         </Label>
                         <HorizontalStackLayout HorizontalOptions="Center">
-                            <Button Text="Create Module"/>
-                            <!--   Clicked="AddModuleClick" />-->
-                            <Button Text="Edit Module"/>
-                            <!--   Clicked="EditModuleClick"/>-->
-                            <Button Text="Delete Module"/>
-                            <!--   Clicked="RemoveModuleClick"/>-->
+                            <Button Text="Create Module"
+                                Clicked="AddModuleClick" />
+                            <Button Text="Edit Module"
+                                Clicked="EditModuleClick"/>
+                            <Button Text="Delete Module"
+                                Clicked="RemoveModuleClick"/>
                         </HorizontalStackLayout>
                         <ListView
                             ItemsSource="{Binding Modules}"

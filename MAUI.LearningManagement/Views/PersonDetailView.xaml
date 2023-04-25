@@ -22,6 +22,10 @@
                         Value="J"/>
             <RadioButton Content="Senior"
                         Value="S"/>
+            <RadioButton Content="Teaching Assistant"
+                        Value="T"/>
+            <RadioButton Content="Instructor"
+                        Value="I"/>
         </StackLayout>
         <Button
             Text="Ok"
