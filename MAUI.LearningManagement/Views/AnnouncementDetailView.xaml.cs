@@ -30,7 +30,7 @@ public partial class AnnouncementDetailView : ContentPage
 
     private void CancelClick(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync("//CourseDetail");
+        Shell.Current.GoToAsync("//Instructor");
     }
     private void OnLeaving(object sender, NavigatedFromEventArgs e)
     {

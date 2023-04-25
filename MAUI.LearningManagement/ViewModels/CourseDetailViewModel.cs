@@ -172,6 +172,7 @@ namespace MAUI.LearningManagement.ViewModels
             RefreshView();
         }
 
+
         private CourseSemester StringToClass(string s)
         {
             CourseSemester semester;
@@ -233,10 +234,32 @@ namespace MAUI.LearningManagement.ViewModels
             {
                 CourseService.Current.RemoveAnnouncement(refToUpdate, SelectedAnnouncement);
             }
-
-
             RefreshView();
+        }
 
+        public Module SelectedModule { get; set; }
+
+        public void AddModuleClick(Shell s)
+        {
+            var idParam = SelectedModule?.Id ?? 0;
+            s.GoToAsync($"//ModuleDetail?courseId={Id}&moduleId={idParam}");
+
+        }
+
+        public void RemoveModuleClick(int courseId)
+        {
+            if (SelectedModule == null) { return; }
+
+            ModuleService.Current.Remove(SelectedModule);
+
+            var refToUpdate = CourseService.Current.GetById(courseId);
+
+            //var idParam = SelectedPerson?.Id ?? 0;
+            if (refToUpdate != null)
+            {
+                CourseService.Current.RemoveModule(refToUpdate, SelectedModule);
+            }
+            RefreshView();
         }
 
         public ObservableCollection<Announcement>Announcement
@@ -246,13 +269,23 @@ namespace MAUI.LearningManagement.ViewModels
                 if (Id > 0)
                 {
                     var refToUpdate = CourseService.Current.GetById(Id);
-                    //FakeDatabase.People.Where(p => p is Student).Select(p => p as Student);
-                    //FakeDatabase.Courses.Where(c => c is Course).Where(p => p is )
-                    //return new ObservableCollection<Person>(StudentService.Current.Students);
-
-
 
                     return new ObservableCollection<Announcement>(refToUpdate.Announcements);
+
+                }
+                return null;
+            }
+        }
+
+        public ObservableCollection<Module> Modules
+        {
+            get
+            {
+                if (Id > 0)
+                {
+                    var refToUpdate = CourseService.Current.GetById(Id);
+
+                    return new ObservableCollection<Module>(refToUpdate.Modules);
 
                 }
                 return null;
@@ -264,6 +297,7 @@ namespace MAUI.LearningManagement.ViewModels
             NotifyPropertyChanged(nameof(People));
             NotifyPropertyChanged(nameof(Students));
             NotifyPropertyChanged(nameof(Announcement));
+            NotifyPropertyChanged(nameof(Modules));
         }
     }
 }
