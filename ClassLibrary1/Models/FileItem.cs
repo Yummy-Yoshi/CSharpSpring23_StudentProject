@@ -11,7 +11,7 @@ namespace Library.LearningManagement.Models
         public string? Path { get; set; }
         public override string ToString()
         {
-            return $"{base.ToString()}\n{Path}";
+            return $"{base.ToString()} - {Path}";
         }
     }
 }

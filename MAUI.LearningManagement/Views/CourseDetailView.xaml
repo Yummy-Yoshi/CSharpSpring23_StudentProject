@@ -95,7 +95,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <VerticalStackLayout>
-                    <Label Text="Students" 
+                    <Label Text="Students and Instructors" 
                            Grid.Column="0"
                            VerticalOptions="Center" 
                            HorizontalOptions="Center">
@@ -114,11 +114,11 @@
                            HorizontalOptions="Center">
                     </Label>
                     <Button 
-                        Text="Enroll student to course"
+                        Text="Enroll Person to Course"
                         Clicked="AddEnrollmentClick"
                         />
                     <Button
-                        Text="Drop Student from course"
+                        Text="Drop Person from Course"
                         Clicked="RemoveEnrollmentClick"
                         />
                     <Rectangle HeightRequest="10"/>
@@ -145,17 +145,17 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <VerticalStackLayout>
-                        <Label Text="Assignments" 
+                        <Label Text="Assignment Groups" 
                            Grid.Column="0"
                            VerticalOptions="Center" 
                            HorizontalOptions="Center">
                         </Label>
                         <HorizontalStackLayout HorizontalOptions="Center">
-                            <Button Text="Create Assignment"/>
+                            <Button Text="Create Assignment Group" LineBreakMode="WordWrap" FontSize="10"/>
                             <!--   Clicked="AddAssignmentClick"/>-->
-                            <Button Text="Edit Assignment"/>
+                            <Button Text="Edit Assignment Group" LineBreakMode="WordWrap" FontSize="10"/>
                             <!--   Clicked="AddAssignmentClick"/>-->
-                            <Button Text="Delete Assignment"/>
+                            <Button Text="Delete Assignment Group" LineBreakMode="WordWrap" FontSize="10"/>
                             <!--   Clicked="RemoveAssignmentClick"/>-->
                         </HorizontalStackLayout>
                         <ListView
@@ -174,10 +174,13 @@
                         </Label>
                         <HorizontalStackLayout HorizontalOptions="Center">
                             <Button Text="Create Module"
+                                FontSize="10"
                                 Clicked="AddModuleClick" />
                             <Button Text="Edit Module"
+                                FontSize="10"
                                 Clicked="EditModuleClick"/>
                             <Button Text="Delete Module"
+                                FontSize="10"
                                 Clicked="RemoveModuleClick"/>
                         </HorizontalStackLayout>
                         <ListView
@@ -195,10 +198,16 @@
                         </Label>
                         <HorizontalStackLayout HorizontalOptions="Center">
                             <Button Text="Create Announcement"
+                                FontSize="10"
+                                LineBreakMode="WordWrap"
                                 Clicked="AddAnnouncementClick"/>
                             <Button Text="Edit Announcement"
+                                FontSize="10"
+                                LineBreakMode="WordWrap"
                                 Clicked="EditAnnouncementClick"/>
                             <Button Text="Delete Announcement"
+                                FontSize="10"
+                                LineBreakMode="WordWrap"
                                 Clicked="RemoveAnnouncementClick"/>
                         </HorizontalStackLayout>
                         <Rectangle HeightRequest="10"/>

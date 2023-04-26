@@ -19,7 +19,9 @@ namespace MAUI.LearningManagement.ViewModels
 
         public int ModuleId;
 
-        public FileItemDetailViewModel(int moduleId = 0, int id = 0)
+        public int CourseId;
+
+        public FileItemDetailViewModel(int moduleId = 0, int id = 0, int courseId= 0)
         {
             if (id > 0)
             {
@@ -29,6 +31,11 @@ namespace MAUI.LearningManagement.ViewModels
             if (moduleId > 0)
             {
                 ModuleId = moduleId;
+            }
+
+            if (courseId > 0)
+            {
+                CourseId = moduleId;
             }
         }
 
@@ -72,7 +79,8 @@ namespace MAUI.LearningManagement.ViewModels
                 ModuleService.Current.AddContent(module, refToUpdate);
 
             }
-            Shell.Current.GoToAsync("//ModuleDetail?moduleId={ModuleId}");
+            //Shell.Current.GoToAsync("//Instructor");
+            Shell.Current.GoToAsync($"//ModuleDetail?moduleId={ModuleId}&courseId={CourseId}");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

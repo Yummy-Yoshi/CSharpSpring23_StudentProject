@@ -30,12 +30,13 @@ public partial class ModuleDetailView : ContentPage
 
     private void CancelClick(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync("//Instructor");
+        Shell.Current.GoToAsync($"//CourseDetail?courseId={CourseId}");
     }
 
     private void OnLeaving(object sender, NavigatedFromEventArgs e)
     {
         BindingContext = null;
+        
     }
 
     private void OnArriving(object sender, NavigatedToEventArgs e)
@@ -47,12 +48,25 @@ public partial class ModuleDetailView : ContentPage
     {                                               
         (BindingContext as ModuleDetailViewModel).AddFileItemClick(Shell.Current);
     }
-    private void EditFileItem(object sender, EventArgs e)
+    private void EditFileItemClick(object sender, EventArgs e)
     {
-        (BindingContext as ModuleDetailViewModel).AddFileItemClick(Shell.Current);
+        (BindingContext as ModuleDetailViewModel).EditFileItemClick(Shell.Current);
     }
     private void RemoveFileItemClick(object sender, EventArgs e)
     {
         (BindingContext as ModuleDetailViewModel).RemoveFileItemClick(CourseId);
+    }
+
+    private void AddAssignmentItemClick(object sender, EventArgs e)
+    {
+        (BindingContext as ModuleDetailViewModel).AddAssignmentItemClick(Shell.Current);
+    }
+    private void EditAssignmentItemClick(object sender, EventArgs e)
+    {
+        (BindingContext as ModuleDetailViewModel).EditAssignmentItemClick(Shell.Current);
+    }
+    private void RemoveAssignmentItemClick(object sender, EventArgs e)
+    {
+        (BindingContext as ModuleDetailViewModel).RemoveAssignmentItemClick(CourseId);
     }
 }

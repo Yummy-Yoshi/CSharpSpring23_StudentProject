@@ -103,6 +103,11 @@ namespace MAUI.LearningManagement.ViewModels
 
         public void AddCourseClick(Shell s)
         {
+            var idParam = 0;
+            s.GoToAsync($"//CourseDetail?courseId={idParam}");
+        }
+        public void EditCourseClick(Shell s)
+        {
             var idParam = SelectedCourse?.Id ?? 0;
             s.GoToAsync($"//CourseDetail?courseId={idParam}");
         }

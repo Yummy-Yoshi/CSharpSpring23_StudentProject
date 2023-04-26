@@ -216,8 +216,14 @@ namespace MAUI.LearningManagement.ViewModels
 
         public void AddAnnouncementClick(Shell s)
         {
+            var idParam = 0;
+            s.GoToAsync($"//AnnouncementDetail?courseId={Id}&announcementId={idParam}");
+
+        }
+        public void EditAnnouncementClick(Shell s)
+        {
             var idParam = SelectedAnnouncement?.Id ?? 0;
-            s.GoToAsync($"//AnnouncementDetail?classsId={Id}&announcementId={idParam}");
+            s.GoToAsync($"//AnnouncementDetail?courseId={Id}&announcementId={idParam}");
 
         }
 
@@ -237,9 +243,43 @@ namespace MAUI.LearningManagement.ViewModels
             RefreshView();
         }
 
+        public void AddAssignmentGroupClick(Shell s)
+        {
+            var idParam = 0;
+            s.GoToAsync($"//AssignmentGroupDetail?courseId={Id}&announcementId={idParam}");
+
+        }
+        public void EditAssignmentGroupClick(Shell s)
+        {
+            var idParam = SelectedAnnouncement?.Id ?? 0;
+            s.GoToAsync($"//AssignmentGroupDetail?courseId={Id}&announcementId={idParam}");
+
+        }
+
+        public void RemoveAssignmentGroupClick(int courseId)
+        {
+            if (SelectedAnnouncement == null) { return; }
+
+            AnnouncementService.Current.Remove(SelectedAnnouncement);
+
+            var refToUpdate = CourseService.Current.GetById(courseId);
+
+            //var idParam = SelectedPerson?.Id ?? 0;
+            if (refToUpdate != null)
+            {
+                CourseService.Current.RemoveAnnouncement(refToUpdate, SelectedAnnouncement);
+            }
+            RefreshView();
+        }
+
         public Module SelectedModule { get; set; }
 
         public void AddModuleClick(Shell s)
+        {
+            s.GoToAsync($"//ModuleDetail?courseId={Id}");
+        }
+
+        public void EditModuleClick(Shell s)
         {
             var idParam = SelectedModule?.Id ?? 0;
             s.GoToAsync($"//ModuleDetail?courseId={Id}&moduleId={idParam}");

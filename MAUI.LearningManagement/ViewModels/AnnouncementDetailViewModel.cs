@@ -82,8 +82,8 @@ namespace MAUI.LearningManagement.ViewModels
                 CourseService.Current.AddAnnouncement(course, refToUpdate);
 
             }
-            //Shell.Current.GoToAsync("//CourseDetail?courseId={CourseId}");
-            Shell.Current.GoToAsync("//Instructor");
+            Shell.Current.GoToAsync($"//CourseDetail?courseId={CourseId}");
+            //Shell.Current.GoToAsync("//Instructor");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
