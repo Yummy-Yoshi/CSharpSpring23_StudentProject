@@ -30,12 +30,15 @@
                            HorizontalOptions="Center">
                 </Label>
                 <HorizontalStackLayout HorizontalOptions="Center">
-                    <Button Text="Create Page Item"/>
-                    <!--            Clicked="AddPageItemClick" />-->
-                    <Button Text="Edit Page Item"/>
-                    <!--            Clicked="EditPageItemClick"/>-->
-                    <Button Text="Delete Page Item"/>
-                    <!--            Clicked="RemovePageItemClick"/>-->
+                    <Button Text="Create Page Item"
+                        FontSize="10"
+                        Clicked="AddPageItemClick" />
+                    <Button Text="Edit Page Item"
+                        FontSize="10"
+                        Clicked="EditPageItemClick"/>
+                    <Button Text="Delete Page Item"
+                        FontSize="10"
+                        Clicked="RemovePageItemClick"/>
                 </HorizontalStackLayout>
                 <ListView
                             ItemsSource="{Binding PageItems}"
@@ -53,10 +56,13 @@
                 </Label>
                 <HorizontalStackLayout HorizontalOptions="Center">
                     <Button Text="Create Assignment Item"
+                        FontSize="10"
                         Clicked="AddAssignmentItemClick" />
                     <Button Text="Edit Assignment Item"
+                        FontSize="10"
                         Clicked="EditAssignmentItemClick"/>
                     <Button Text="Delete Assignment Item"
+                        FontSize="10"
                         Clicked="RemoveAssignmentItemClick"/>
                 </HorizontalStackLayout>
                 <ListView
@@ -74,10 +80,13 @@
                 </Label>
                 <HorizontalStackLayout HorizontalOptions="Center">
                     <Button Text="Create File Item"
+                        FontSize="10"
                         Clicked="AddFileItemClick"/>
                     <Button Text="Edit File Item"
+                        FontSize="10"
                         Clicked="EditFileItemClick"/>
                     <Button Text="Delete File Item"
+                        FontSize="10"
                         Clicked="RemoveFileItemClick"/>
                 </HorizontalStackLayout>
                 <Rectangle HeightRequest="10"/>

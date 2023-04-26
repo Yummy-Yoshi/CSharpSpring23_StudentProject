@@ -36,7 +36,7 @@ namespace MAUI.LearningManagement.ViewModels
 
             if (courseId > 0)
             {
-                CourseId = moduleId;
+                CourseId = courseId;
             }
         }
 

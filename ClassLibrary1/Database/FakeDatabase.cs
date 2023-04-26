@@ -14,6 +14,8 @@ namespace Library.LearningManagement.Database
         private static List<Announcement> announcements= new List<Announcement>();
         private static List<Module> modules = new List<Module>();
         private static List<ContentItem> contentItems = new List<ContentItem>();
+        private static List<AssignmentGroup> assignmentGroups = new List<AssignmentGroup>();
+        private static List<Assignment> assignments= new List<Assignment>();
         public static List<Person> People
         {
             get
@@ -49,6 +51,20 @@ namespace Library.LearningManagement.Database
             get
             {
                 return contentItems;
+            }
+        }
+        public static List<AssignmentGroup> AssignmentGroups
+        {
+            get
+            {
+                return assignmentGroups;
+            }
+        }
+        public static List<Assignment> Assignments
+        {
+            get
+            {
+                return assignments;
             }
         }
     }

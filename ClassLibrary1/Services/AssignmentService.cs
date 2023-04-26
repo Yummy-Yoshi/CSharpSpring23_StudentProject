@@ -1,4 +1,5 @@
-﻿using Library.LearningManagement.Models;
+﻿using Library.LearningManagement.Database;
+using Library.LearningManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,17 @@ namespace Library.LearningManagement.Services
 {
     public class AssignmentService
     {
-        public List<Assignment> assignmentList;
-
         private static AssignmentService? _instance;
-
+        public IEnumerable<Assignment?> Assignments
+        {
+            get
+            {
+                return FakeDatabase.Assignments.Where(a => a is Assignment);
+            }
+        }
         private AssignmentService()
         {
-            assignmentList = new List<Assignment>();
+
         }
 
         public static AssignmentService Current
@@ -32,15 +37,15 @@ namespace Library.LearningManagement.Services
 
         public void Add(Assignment assignment)
         {
-            assignmentList.Add(assignment);
+            FakeDatabase.Assignments.Add(assignment);
         }
-
-        public List<Assignment> Assignments
+        public void Remove(Assignment assignment)
         {
-            get
-            {
-                return assignmentList;
-            }
+            FakeDatabase.Assignments.Remove(assignment);
+        }
+        public Assignment? GetById(int id)
+        {
+            return FakeDatabase.Assignments.FirstOrDefault(a => a.Id == id);
         }
     }
 }

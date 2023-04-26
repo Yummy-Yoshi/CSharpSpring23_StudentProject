@@ -243,31 +243,31 @@ namespace MAUI.LearningManagement.ViewModels
             RefreshView();
         }
 
+        public AssignmentGroup SelectedAssignmentGroup { get; set; }
         public void AddAssignmentGroupClick(Shell s)
         {
             var idParam = 0;
-            s.GoToAsync($"//AssignmentGroupDetail?courseId={Id}&announcementId={idParam}");
+            s.GoToAsync($"//AssignmentGroupDetail?courseId={Id}&assignmentgroupId={idParam}");
 
         }
         public void EditAssignmentGroupClick(Shell s)
         {
-            var idParam = SelectedAnnouncement?.Id ?? 0;
-            s.GoToAsync($"//AssignmentGroupDetail?courseId={Id}&announcementId={idParam}");
+            var idParam = SelectedAssignmentGroup?.Id ?? 0;
+            s.GoToAsync($"//AssignmentGroupDetail?courseId={Id}&assignmentgroupId={idParam}");
 
         }
 
         public void RemoveAssignmentGroupClick(int courseId)
         {
-            if (SelectedAnnouncement == null) { return; }
+            if (SelectedAssignmentGroup == null) { return; }
 
-            AnnouncementService.Current.Remove(SelectedAnnouncement);
+            AssignmentGroupService.Current.Remove(SelectedAssignmentGroup);
 
             var refToUpdate = CourseService.Current.GetById(courseId);
 
-            //var idParam = SelectedPerson?.Id ?? 0;
             if (refToUpdate != null)
             {
-                CourseService.Current.RemoveAnnouncement(refToUpdate, SelectedAnnouncement);
+                CourseService.Current.RemoveAssignmentGroup(refToUpdate, SelectedAssignmentGroup);
             }
             RefreshView();
         }
@@ -332,12 +332,28 @@ namespace MAUI.LearningManagement.ViewModels
             }
         }
 
+        public ObservableCollection<AssignmentGroup> AssignmentGroups
+        {
+            get
+            {
+                if (Id > 0)
+                {
+                    var refToUpdate = CourseService.Current.GetById(Id);
+
+                    return new ObservableCollection<AssignmentGroup>(refToUpdate.AssignmentGroups);
+
+                }
+                return null;
+            }
+        }
+
         public void RefreshView()
         {
             NotifyPropertyChanged(nameof(People));
             NotifyPropertyChanged(nameof(Students));
             NotifyPropertyChanged(nameof(Announcement));
             NotifyPropertyChanged(nameof(Modules));
+            NotifyPropertyChanged(nameof(AssignmentGroups));
         }
     }
 }

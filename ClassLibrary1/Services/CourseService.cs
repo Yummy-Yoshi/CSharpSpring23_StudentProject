@@ -46,6 +46,27 @@ namespace Library.LearningManagement.Services
         {
             FakeDatabase.Courses.Remove(course);
         }
+
+        public void AddAssignmentGroup(Course course, AssignmentGroup assignmentGroup)
+        {
+            foreach (var item in FakeDatabase.Courses)
+            {
+                if (item.Name == course.Name)
+                {
+                    item.AssignmentGroups.Add(assignmentGroup);
+                }
+            }
+        }
+        public void RemoveAssignmentGroup(Course course, AssignmentGroup assignmentGroup)
+        {
+            foreach (var item in FakeDatabase.Courses)
+            {
+                if (item.Name == course.Name)
+                {
+                    item.AssignmentGroups.Remove(assignmentGroup);
+                }
+            }
+        }
         public void AddModule(Course course, Module module)
         {
             foreach (var item in FakeDatabase.Courses)

@@ -29,12 +29,13 @@ namespace Library.LearningManagement.Models
 
         public DateTime DueDate { get; set; }
 
-        public List<Student> Submissions { get; set; }
+        public List<Submission>? Submissions { get; set; }
 
+        /*
         public Assignment()
         {
             Submissions = new List<Student>();
-        }
+        }*/
 
 
         public virtual string Display => $"{Id}. ({DueDate}) {Name} - {TotalAvailablePoints}\n{Description}";
