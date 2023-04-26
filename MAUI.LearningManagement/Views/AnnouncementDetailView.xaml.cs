@@ -4,7 +4,7 @@ using MAUI.LearningManagement.ViewModels;
 namespace MAUI.LearningManagement.Views;
 
 [QueryProperty(nameof(AnnouncementId), "announcementId")]
-[QueryProperty(nameof(ClasssId), "classsId")]
+[QueryProperty(nameof(CourseId), "courseId")]
 public partial class AnnouncementDetailView : ContentPage
 {
     
@@ -17,7 +17,7 @@ public partial class AnnouncementDetailView : ContentPage
         set; get;
     }
 
-    public int ClasssId
+    public int CourseId
     {
         set; get;
     }
@@ -30,16 +30,16 @@ public partial class AnnouncementDetailView : ContentPage
 
     private void CancelClick(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync("//Instructor");
+        Shell.Current.GoToAsync($"//CourseDetail?courseId={CourseId}");
     }
     private void OnLeaving(object sender, NavigatedFromEventArgs e)
     {
         BindingContext = null;
-        //Shell.Current.GoToAsync("//CourseDetail?courseId={ClasssId}");
+        Shell.Current.GoToAsync($"//CourseDetail?courseId={CourseId}");
     }
 
     private void OnArriving(object sender, NavigatedToEventArgs e)
     {
-        BindingContext = new AnnouncementDetailViewModel(AnnouncementId, ClasssId);
+        BindingContext = new AnnouncementDetailViewModel(AnnouncementId, CourseId);
     }
 }

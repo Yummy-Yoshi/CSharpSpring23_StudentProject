@@ -61,7 +61,7 @@ public partial class CourseDetailView : ContentPage
 
     private void EditAnnouncementClick(object sender, EventArgs e)
     {
-        (BindingContext as CourseDetailViewModel).AddAnnouncementClick(Shell.Current);
+        (BindingContext as CourseDetailViewModel).EditAnnouncementClick(Shell.Current);
     }
 
     private void AddModuleClick(object sender, EventArgs e)
@@ -70,11 +70,24 @@ public partial class CourseDetailView : ContentPage
     }
     private void EditModuleClick(object sender, EventArgs e)
     {
-        (BindingContext as CourseDetailViewModel).AddModuleClick(Shell.Current);
+        (BindingContext as CourseDetailViewModel).EditModuleClick(Shell.Current);
     }
     private void RemoveModuleClick(object sender, EventArgs e)
     {
         (BindingContext as CourseDetailViewModel).RemoveModuleClick(CourseId);
+    }
+
+    private void AddAssignmentGroupClick(object sender, EventArgs e)
+    {
+        (BindingContext as CourseDetailViewModel).AddAssignmentGroupClick(Shell.Current);
+    }
+    private void EditAssignmentGroupClick(object sender, EventArgs e)
+    {
+        (BindingContext as CourseDetailViewModel).EditAssignmentGroupClick(Shell.Current);
+    }
+    private void RemoveAssignmentGroupClick(object sender, EventArgs e)
+    {
+        (BindingContext as CourseDetailViewModel).RemoveAssignmentGroupClick(CourseId);
     }
 }
 

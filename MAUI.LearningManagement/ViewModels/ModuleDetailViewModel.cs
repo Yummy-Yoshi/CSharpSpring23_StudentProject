@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MAUI.LearningManagement.ViewModels
 {
-    public class ModuleDetailViewModel
+    class ModuleDetailViewModel : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public List<ContentItem> Content { get; set; }
@@ -57,9 +57,9 @@ namespace MAUI.LearningManagement.ViewModels
             if (Id <= 0)
             {
                 var module = new Library.LearningManagement.Models.Module { Name = Name, Description = Description};
-                if (SelectedContent != null)
+                if (SelectedFileItem != null)
                 {
-                    module.Content.Add(SelectedContent);
+                    module.Content.Add(SelectedFileItem);
                 }
                 ModuleService.Current.Add(module);
 
@@ -77,8 +77,8 @@ namespace MAUI.LearningManagement.ViewModels
                 CourseService.Current.AddModule(course, refToUpdate);
 
             }
-            //Shell.Current.GoToAsync("//CourseDetail?courseId={CourseId}");
-            Shell.Current.GoToAsync("//Instructor");
+            Shell.Current.GoToAsync($"//CourseDetail?courseId={CourseId}");
+            //Shell.Current.GoToAsync("//Instructor");
 
         }
 
@@ -91,48 +91,102 @@ namespace MAUI.LearningManagement.ViewModels
 
         public void AddFileItemClick(Shell s)
         {
-            var idParam = SelectedContent?.Id ?? 0;
-            s.GoToAsync($"//FileItemDetail?moduleId={Id}&contentId={idParam}");
+            var idParam = 0;
+            s.GoToAsync($"//FileItemDetail?moduleId={Id}&contentId={idParam}&courseId={CourseId}");
+
+        }
+        public void EditFileItemClick(Shell s)
+        {
+            var idParam = SelectedFileItem?.Id ?? 0;
+            s.GoToAsync($"//FileItemDetail?moduleId={Id}&contentId={idParam}&courseId={CourseId}");
 
         }
 
         public void RemoveFileItemClick(int moduleId)
         {
-            if (SelectedContent == null) { return; }
+            if (SelectedFileItem == null) { return; }
 
-            ContentService.Current.Remove(SelectedContent);
+            ContentService.Current.Remove(SelectedFileItem);
 
             var refToUpdate = ModuleService.Current.GetById(moduleId);
 
             //var idParam = SelectedPerson?.Id ?? 0;
             if (refToUpdate != null)
             {
-                ModuleService.Current.RemoveContent(refToUpdate, SelectedContent);
+                ModuleService.Current.RemoveContent(refToUpdate, SelectedFileItem);
             }
             RefreshView();
         }
 
-        public ContentItem SelectedContent { get; set; }
-        public ObservableCollection<ContentItem> Contents
+        public void AddAssignmentItemClick(Shell s)
+        {
+            var idParam = 0;
+            s.GoToAsync($"//AssignmentItemDetail?moduleId={Id}&contentId={idParam}&courseId={CourseId}");
+        }
+
+        public void EditAssignmentItemClick(Shell s)
+        {
+            var idParam = SelectedAssignmentItem?.Id ?? 0;
+            s.GoToAsync($"//AssignmentItemDetail?moduleId={Id}&contentId={idParam}&courseId={CourseId}");
+
+        }
+
+        public void RemoveAssignmentItemClick(int moduleId)
+        {
+            if (SelectedAssignmentItem == null) { return; }
+
+            ContentService.Current.Remove(SelectedAssignmentItem);
+
+            var refToUpdate = ModuleService.Current.GetById(moduleId);
+
+            if (refToUpdate != null)
+            {
+                ModuleService.Current.RemoveContent(refToUpdate, SelectedAssignmentItem);
+            }
+            RefreshView();
+        }
+
+        public ContentItem SelectedFileItem { get; set; }
+        public ObservableCollection<ContentItem> FileItems
         {
             get
             {
 
                 if (Id > 0)
                 {
-                    var refToUpdate = ModuleService.Current.GetById(Id);
+                    var filteredList = ModuleService.Current.GetById(Id);
 
-                    return new ObservableCollection<ContentItem>(refToUpdate.Content);
+                    var filter = filteredList.Content.Where(c => c is FileItem);
 
+                    return new ObservableCollection<ContentItem>(filter);
                 }
                 return null;
-
             }
         }
 
+        public ContentItem SelectedAssignmentItem { get; set; }
+        public ObservableCollection<ContentItem> AssignmentItems
+        {
+            get
+            {
+                if (Id > 0)
+                {
+                    var filteredList = ModuleService.Current.GetById(Id);
+
+                    var filter = filteredList.Content.Where(c => c is AssignmentItem);
+
+                    return new ObservableCollection<ContentItem>(filter);
+                }
+                return null;
+            }
+        }
+
+        
         public void RefreshView()
         {
-            NotifyPropertyChanged(nameof(Contents));
+            NotifyPropertyChanged(nameof(FileItems));
+            NotifyPropertyChanged(nameof(AssignmentItems));
         }
+        
     }
 }

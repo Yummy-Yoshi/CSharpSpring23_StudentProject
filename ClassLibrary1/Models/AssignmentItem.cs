@@ -12,7 +12,7 @@ namespace Library.LearningManagement.Models
 
         public override string ToString()
         {
-            return $"{base.ToString()}\n{Assignment}";
+            return $"{base.ToString()} - {Assignment}";
         }
 
     }
