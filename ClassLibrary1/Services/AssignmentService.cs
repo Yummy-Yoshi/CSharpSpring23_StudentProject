@@ -1,4 +1,5 @@
-﻿using Library.LearningManagement.Models;
+﻿using Library.LearningManagement.Database;
+using Library.LearningManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,17 @@ namespace Library.LearningManagement.Services
 {
     public class AssignmentService
     {
-        public List<Assignment> assignmentList;
-
         private static AssignmentService? _instance;
-
+        public IEnumerable<Assignment?> Assignments
+        {
+            get
+            {
+                return FakeDatabase.Assignments.Where(a => a is Assignment);
+            }
+        }
         private AssignmentService()
         {
-            assignmentList = new List<Assignment>();
+
         }
 
         public static AssignmentService Current
@@ -32,14 +37,35 @@ namespace Library.LearningManagement.Services
 
         public void Add(Assignment assignment)
         {
-            assignmentList.Add(assignment);
+            FakeDatabase.Assignments.Add(assignment);
+        }
+        public void Remove(Assignment assignment)
+        {
+            FakeDatabase.Assignments.Remove(assignment);
+        }
+        public Assignment? GetById(int id)
+        {
+            return FakeDatabase.Assignments.FirstOrDefault(a => a.Id == id);
         }
 
-        public List<Assignment> Assignments
+        public void AddSubmission(Assignment assignment, Submission submission)
         {
-            get
+            foreach (var item in FakeDatabase.Assignments)
             {
-                return assignmentList;
+                if (item.Name == assignment.Name)
+                {
+                    item.Submissions.Add(submission);
+                }
+            }
+        }
+        public void RemoveSubmission(Assignment assignment, Submission submission)
+        {
+            foreach (var item in FakeDatabase.Assignments)
+            {
+                if (item.Name == assignment.Name)
+                {
+                    item.Submissions.Remove(submission);
+                }
             }
         }
     }

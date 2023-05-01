@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Library.LearningManagement.Models
 {
-    public class AssignmentGroup
+    public class Submission
     {
         private static int lastId = 0;
         private int id = 0;
@@ -22,23 +21,19 @@ namespace Library.LearningManagement.Models
                 return id;
             }
         }
-        public string? Name { get; set; }
+        public Student Student { get; set; }
+        public double Grade { get; set; }
 
-        public decimal Weight { get; set; }
 
-        public List<Assignment> Assignments { get; set; }
-
-        public AssignmentGroup()
+        public Submission()
         {
-            Assignments = new List<Assignment>();
+            Student = new Student();
+            Grade = 0;
         }
-        /*
-        public virtual string Display => $"{Id}. {Name} - {Weight}%\n" +
-            $"Assignments:\n{string.Join("\n", Assignments.Select(a => a.ToString()).ToArray())}\n";*/
 
         public override string ToString()
         {
-            return $"{Id}. {Name} - {Weight}%";
+            return $"{Student?.Name} - {Grade}";
         }
     }
 }

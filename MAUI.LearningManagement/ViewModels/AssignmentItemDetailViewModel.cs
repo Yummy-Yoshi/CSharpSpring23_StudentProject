@@ -15,7 +15,7 @@ namespace MAUI.LearningManagement.ViewModels
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public Assignment? Assignment { get; set; }
+        public Assignment Assignment { get; set; }
         public int Id { get; set; }
 
         public int ModuleId;
@@ -36,7 +36,7 @@ namespace MAUI.LearningManagement.ViewModels
 
             if (courseId > 0)
             {
-                CourseId = moduleId;
+                CourseId = courseId;
             }
         }
 
@@ -104,13 +104,12 @@ namespace MAUI.LearningManagement.ViewModels
         {
             get
             {
-                if (Id > 0)
-                {
-                    var refToUpdate = CourseService.Current.GetById(Id);
+                
+                    var refToUpdate = CourseService.Current.GetById(CourseId);
 
                     return new ObservableCollection<Assignment>(refToUpdate.Assignments);
-                }
-                return null;
+                
+             
             }
         }
     }

@@ -7,97 +7,61 @@
              NavigatedTo="OnArriving"
              >
     <VerticalStackLayout>
-        <Label 
-            Text="Name"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
-        <Entry Text="{Binding Path=Name, Mode=TwoWay}"></Entry>
-        <Label 
-                Text="Description"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-        <Entry Text="{Binding Path=Description, Mode=TwoWay}"></Entry>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="8*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <VerticalStackLayout>
-                <Label Text="Page Items" 
-                           Grid.Column="0"
-                           VerticalOptions="Center" 
-                           HorizontalOptions="Center">
-                </Label>
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Button Text="Create Page Item"/>
-                    <!--            Clicked="AddPageItemClick" />-->
-                    <Button Text="Edit Page Item"/>
-                    <!--            Clicked="EditPageItemClick"/>-->
-                    <Button Text="Delete Page Item"/>
-                    <!--            Clicked="RemovePageItemClick"/>-->
-                </HorizontalStackLayout>
-                <ListView
-                            ItemsSource="{Binding PageItems}"
-                            SelectedItem="{Binding SelectedPageItem}"
-                            Grid.Column="0">
-                </ListView>
-                <Rectangle HeightRequest="10"/>
-
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Assignment Items"
-                           Grid.Column="1"
-                           VerticalOptions="Center" 
-                           HorizontalOptions="Center">
-                </Label>
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Button Text="Create Assignment Item"
-                        Clicked="AddAssignmentItemClick" />
-                    <Button Text="Edit Assignment Item"
-                        Clicked="EditAssignmentItemClick"/>
-                    <Button Text="Delete Assignment Item"
-                        Clicked="RemoveAssignmentItemClick"/>
-                </HorizontalStackLayout>
-                <ListView
-                            ItemsSource="{Binding AssignmentItems}"
-                            SelectedItem="{Binding SelectedAssignmentItem}"
-                            Grid.Column="0">
-                </ListView>
-                <Rectangle HeightRequest="10"/>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="2">
-                <Label Text="File Items" 
-                           Grid.Column="2"
-                           VerticalOptions="Center" 
-                           HorizontalOptions="Center">
-                </Label>
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Button Text="Create File Item"
-                        Clicked="AddFileItemClick"/>
-                    <Button Text="Edit File Item"
-                        Clicked="EditFileItemClick"/>
-                    <Button Text="Delete File Item"
-                        Clicked="RemoveFileItemClick"/>
-                </HorizontalStackLayout>
-                <Rectangle HeightRequest="10"/>
-                <ListView
-                ItemsSource="{Binding FileItems}"
-                SelectedItem="{Binding SelectedFileItem}">
-                </ListView>
-
-                <Rectangle HeightRequest="10"/>
-            </VerticalStackLayout>
-
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label 
+                Text="Name"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" 
+                Grid.Row="0"
+                Grid.Column="0"
+                />
+            <Entry 
+                Text="{Binding Path=Name, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="0"
+                ></Entry>
+            <Label 
+                Text="Weight"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" 
+                Grid.Row="0"
+                Grid.Column="1"/>
+            <Entry 
+                Text="{Binding Path=Weight, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="1"></Entry>
         </Grid>
         <Rectangle HeightRequest="10"/>
+        <HorizontalStackLayout HorizontalOptions="Center">
+            <Button Text="Create Assignment"
+                        Clicked="AddAssignmentClick" />
+            <Button Text="Edit Assignment"
+                        Clicked="EditAssignmentClick"/>
+            <Button Text="Delete Assignment"
+                        Clicked="RemoveAssignmentClick"/>
+        </HorizontalStackLayout>
+        <Label 
+                Text="Assignments"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+        <ListView
+                ItemsSource="{Binding Assignment}"
+                SelectedItem="{Binding SelectedAssignment}"/>
         <Button
             Text="Ok"
-            Clicked="OkClick"
-            />
+            Clicked="OkClick"/>
+
         <Button
             Text="Cancel"
-            Clicked="CancelClick"
-            />
+            Clicked="CancelClick"/>
+            
     </VerticalStackLayout>
 </ContentPage>

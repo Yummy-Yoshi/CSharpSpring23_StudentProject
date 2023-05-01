@@ -69,4 +69,17 @@ public partial class ModuleDetailView : ContentPage
     {
         (BindingContext as ModuleDetailViewModel).RemoveAssignmentItemClick(CourseId);
     }
+
+    private void AddPageItemClick(object sender, EventArgs e)
+    {
+        (BindingContext as ModuleDetailViewModel).AddPageItemClick(Shell.Current);
+    }
+    private void EditPageItemClick(object sender, EventArgs e)
+    {
+        (BindingContext as ModuleDetailViewModel).EditPageItemClick(Shell.Current);
+    }
+    private void RemovePageItemClick(object sender, EventArgs e)
+    {
+        (BindingContext as ModuleDetailViewModel).RemovePageItemClick(CourseId);
+    }
 }

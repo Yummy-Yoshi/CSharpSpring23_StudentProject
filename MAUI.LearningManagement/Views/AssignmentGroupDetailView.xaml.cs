@@ -4,10 +4,10 @@ using System.Reflection;
 
 namespace MAUI.LearningManagement.Views;
 
+[QueryProperty(nameof(AssignmentGroupId), "assignmentgroupId")]
+[QueryProperty(nameof(CourseId), "courseId")]
 public partial class AssignmentGroupDetailView : ContentPage
 {
-    [QueryProperty(nameof(AssignmentGroupId), "assignmentgroupId")]
-    [QueryProperty(nameof(CourseId), "courseId")]
     public AssignmentGroupDetailView()
     {
         InitializeComponent();
@@ -22,7 +22,7 @@ public partial class AssignmentGroupDetailView : ContentPage
     {
         set; get;
     }
-
+    
     private void OkClick(object sender, EventArgs e)
     {
         (BindingContext as AssignmentGroupDetailViewModel).AddAssignmentGroup();
@@ -42,7 +42,7 @@ public partial class AssignmentGroupDetailView : ContentPage
     {
         BindingContext = new AssignmentGroupDetailViewModel(AssignmentGroupId, CourseId);
     }
-
+    
     private void AddAssignmentClick(object sender, EventArgs e)
     {
         (BindingContext as AssignmentGroupDetailViewModel).AddAssignmentClick(Shell.Current);

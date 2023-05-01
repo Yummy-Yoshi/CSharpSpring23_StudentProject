@@ -4,14 +4,26 @@
              x:Class="MAUI.LearningManagement.Views.StudentView"
              Title="StudentView">
     <VerticalStackLayout>
-        <Label 
-            Text="STUDENT VIEW"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-
-        <Button
-            Text="Cancel"
-            Clicked="CancelClicked"
-            />
+        <SearchBar
+            Text="{Binding Query, Mode=TwoWay}"
+        ></SearchBar>
+        <VerticalStackLayout IsVisible="{Binding IsEnrollmentsVisible}">
+            <Label 
+                Text="University Enrollments"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+            <ListView
+                ItemsSource="{Binding People}"
+                SelectedItem="{Binding SelectedPerson}">
+            </ListView>
+            <Button
+                Text="See Courses"
+                Clicked="SeeCoursesClick"
+                />
+            <Button
+                Text="Cancel"
+                Clicked="CancelClicked"
+                />
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

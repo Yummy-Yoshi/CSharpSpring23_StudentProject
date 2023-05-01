@@ -11,10 +11,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="8*"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
+
             </Grid.RowDefinitions>
             <Label 
                 Text="Prefix"
@@ -38,6 +40,18 @@
                 Text="{Binding Path=Name, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"></Entry>
+            <Label 
+                Text="Credit Hours"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" 
+                Grid.Row="0"
+                Grid.Column="2"
+                />
+            <Entry 
+                Text="{Binding Path=CreditHours, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="2"
+                ></Entry>
 
         </Grid>
 
@@ -151,16 +165,22 @@
                            HorizontalOptions="Center">
                         </Label>
                         <HorizontalStackLayout HorizontalOptions="Center">
-                            <Button Text="Create Assignment Group" LineBreakMode="WordWrap" FontSize="10"/>
-                            <!--   Clicked="AddAssignmentClick"/>-->
-                            <Button Text="Edit Assignment Group" LineBreakMode="WordWrap" FontSize="10"/>
-                            <!--   Clicked="AddAssignmentClick"/>-->
-                            <Button Text="Delete Assignment Group" LineBreakMode="WordWrap" FontSize="10"/>
-                            <!--   Clicked="RemoveAssignmentClick"/>-->
+                            <Button Text="Create Assignment Group" 
+                                    LineBreakMode="WordWrap"
+                                    FontSize="10"
+                                    Clicked="AddAssignmentGroupClick"/>
+                            <Button Text="Edit Assignment Group" 
+                                    LineBreakMode="WordWrap" 
+                                    FontSize="10"
+                                    Clicked="EditAssignmentGroupClick"/>
+                            <Button Text="Delete Assignment Group"
+                                    LineBreakMode="WordWrap"
+                                    FontSize="10"
+                                    Clicked="RemoveAssignmentGroupClick"/>
                         </HorizontalStackLayout>
                         <ListView
-                            ItemsSource="{Binding Assignments}"
-                            SelectedItem="{Binding SelectedAssignment}"
+                            ItemsSource="{Binding AssignmentGroups}"
+                            SelectedItem="{Binding SelectedAssignmentGroup}"
                             Grid.Column="0">
                         </ListView>
                         <Rectangle HeightRequest="10"/>

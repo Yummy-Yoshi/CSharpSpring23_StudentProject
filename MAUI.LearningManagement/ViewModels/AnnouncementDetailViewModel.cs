@@ -98,12 +98,10 @@ namespace MAUI.LearningManagement.ViewModels
         {
             get
             {
+                var course = CourseService.Current.GetById(CourseId);
 
-                var filteredList = StudentService
-                    .Current
-                    .Students
-                    .Where(
-                    s => s is Instructor || s is TeachingAssistant);
+                var filteredList = course.Roster.Where(s => s is Instructor || s is TeachingAssistant);
+
                 return new ObservableCollection<Person>(filteredList);
 
             }

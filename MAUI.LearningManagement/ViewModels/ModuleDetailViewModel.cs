@@ -146,6 +146,34 @@ namespace MAUI.LearningManagement.ViewModels
             RefreshView();
         }
 
+        public void AddPageItemClick(Shell s)
+        {
+            var idParam = 0;
+            s.GoToAsync($"//PageItemDetail?moduleId={Id}&contentId={idParam}&courseId={CourseId}");
+        }
+
+        public void EditPageItemClick(Shell s)
+        {
+            var idParam = SelectedPageItem?.Id ?? 0;
+            s.GoToAsync($"//PageItemDetail?moduleId={Id}&contentId={idParam}&courseId={CourseId}");
+
+        }
+
+        public void RemovePageItemClick(int moduleId)
+        {
+            if (SelectedPageItem == null) { return; }
+
+            ContentService.Current.Remove(SelectedPageItem);
+
+            var refToUpdate = ModuleService.Current.GetById(moduleId);
+
+            if (refToUpdate != null)
+            {
+                ModuleService.Current.RemoveContent(refToUpdate, SelectedPageItem);
+            }
+            RefreshView();
+        }
+
         public ContentItem SelectedFileItem { get; set; }
         public ObservableCollection<ContentItem> FileItems
         {
@@ -180,12 +208,29 @@ namespace MAUI.LearningManagement.ViewModels
                 return null;
             }
         }
+        public ContentItem SelectedPageItem { get; set; }
+        public ObservableCollection<ContentItem> PageItems
+        {
+            get
+            {
+                if (Id > 0)
+                {
+                    var filteredList = ModuleService.Current.GetById(Id);
 
-        
+                    var filter = filteredList.Content.Where(c => c is PageItem);
+
+                    return new ObservableCollection<ContentItem>(filter);
+                }
+                return null;
+            }
+        }
+
+
         public void RefreshView()
         {
             NotifyPropertyChanged(nameof(FileItems));
             NotifyPropertyChanged(nameof(AssignmentItems));
+            NotifyPropertyChanged(nameof(PageItems));
         }
         
     }
