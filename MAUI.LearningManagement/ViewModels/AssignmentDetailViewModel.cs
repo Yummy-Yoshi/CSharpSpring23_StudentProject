@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MAUI.LearningManagement.ViewModels
 {
-    public class AssignmentDetailViewModel
+    class AssignmentDetailViewModel : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -27,14 +27,14 @@ namespace MAUI.LearningManagement.ViewModels
 
         public AssignmentDetailViewModel(int assignmentgroupId = 0, int id = 0, int courseId = 0)
         {
-            if (id > 0)
-            {
-                LoadById(id);
-            }
-
             if (assignmentgroupId > 0)
             {
                 AssignmentGroupId = assignmentgroupId;
+            }
+
+            if (id > 0)
+            {
+                LoadById(id);
             }
 
             if (courseId > 0)
@@ -70,9 +70,11 @@ namespace MAUI.LearningManagement.ViewModels
                 var assignment = new Assignment { Name = Name, Description = Description, TotalAvailablePoints = TotalAvailablePoints, DueDate = DueDate };
                 if (SelectedSubmission != null)
                 {
-                    assignment.Submissions = SelectedSubmission;
+                    assignment.Submissions.Add(SelectedSubmission);
                 }
                 AssignmentService.Current.Add(assignment);
+                var course = CourseService.Current.GetById(CourseId);
+                course.Assignments.Add(assignment);
 
                 var refToUpdate = AssignmentGroupService.Current.GetById(AssignmentGroupId);
                 AssignmentGroupService.Current.AddAssignment(refToUpdate, assignment);
@@ -86,8 +88,11 @@ namespace MAUI.LearningManagement.ViewModels
                 refToUpdate.DueDate = DueDate;
                 if (SelectedSubmission != null)
                 {
-                    refToUpdate.Submissions = SelectedSubmission;
+                    refToUpdate.Submissions.Add(SelectedSubmission);
                 }
+                var course = CourseService.Current.GetById(CourseId);
+                course.Assignments.Add(refToUpdate);
+                AssignmentService.Current.Add(refToUpdate);
 
                 var assignmentGroup = AssignmentGroupService.Current.GetById(AssignmentGroupId);
                 AssignmentGroupService.Current.RemoveAssignment(assignmentGroup, refToUpdate);
@@ -117,6 +122,34 @@ namespace MAUI.LearningManagement.ViewModels
                 }
                 return null;
             }
+        }
+        public void AddSubmissionClick(Shell s)
+        {
+            var idParam = 0;
+            s.GoToAsync($"//SubmissionDetail?assignmentId={Id}&submissionId={idParam}&assignmentgroupId={AssignmentGroupId}&courseId={CourseId}");
+        }
+        public void EditSubmissionClick(Shell s)
+        {
+            var idParam = SelectedSubmission?.Id ?? 0;
+            s.GoToAsync($"//SubmissionDetail?assignmentId={Id}&submissionId={idParam}&assignmentgroupId={AssignmentGroupId}&courseId={CourseId}");
+        }
+        public void RemoveSubmissionClick(int assignmentgroupId)
+        {
+            if (SelectedSubmission == null) { return; }
+
+            SubmissionService.Current.Remove(SelectedSubmission);
+
+            var refToUpdate = AssignmentService.Current.GetById(assignmentgroupId);
+
+            if (refToUpdate != null)
+            {
+                AssignmentService.Current.RemoveSubmission(refToUpdate, SelectedSubmission);
+            }
+            RefreshView();
+        }
+        public void RefreshView()
+        {
+            NotifyPropertyChanged(nameof(Submission));
         }
     }
 }

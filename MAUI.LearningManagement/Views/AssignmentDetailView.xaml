@@ -29,32 +29,65 @@
                 Grid.Column="0"
                 ></Entry>
             <Label 
-                Text="Weight"
+                Text="Total Available Points"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" 
                 Grid.Row="0"
                 Grid.Column="1"/>
             <Entry 
-                Text="{Binding Path=Weight, Mode=TwoWay}"
+                Text="{Binding Path=TotalAvailablePoints, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="1"></Entry>
+        </Grid>
+        <Rectangle HeightRequest="10"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label 
+                Text="Description"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                Grid.Row="0"
+                Grid.Column="0"
+                />
+            <Entry 
+                Text="{Binding Path=Description, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="0"
+                ></Entry>
+            <Label 
+                Text="Due Date"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" 
+                Grid.Row="0"
+                Grid.Column="1"/>
+            <Entry 
+                Text="{Binding Path=DueDate, Mode=TwoWay}"
                 Grid.Row="1"
                 Grid.Column="1"></Entry>
         </Grid>
         <Rectangle HeightRequest="10"/>
         <HorizontalStackLayout HorizontalOptions="Center">
-            <Button Text="Create Assignment"
-                        Clicked="AddAssignmentClick" />
-            <Button Text="Edit Assignment"
-                        Clicked="EditAssignmentClick"/>
-            <Button Text="Delete Assignment"
-                        Clicked="RemoveAssignmentClick"/>
+            <Button Text="Create Submission"
+                Clicked="AddSubmissionClick"/>
+            <Button Text="Edit Submission"
+                Clicked="EditSubmissionClick"/>
+            <Button Text="Delete Submission"
+                Clicked="RemoveSubmissionClick"/>
         </HorizontalStackLayout>
         <Label 
-                Text="Assignments"
+                Text="Submissions"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
         <ListView
-                ItemsSource="{Binding Assignment}"
-                SelectedItem="{Binding SelectedAssignment}"/>
+                ItemsSource="{Binding Submission}"
+                SelectedItem="{Binding SelectedSubmission}"/>
         <Button
             Text="Ok"
             Clicked="OkClick"/>

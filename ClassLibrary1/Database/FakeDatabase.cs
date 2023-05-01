@@ -16,6 +16,7 @@ namespace Library.LearningManagement.Database
         private static List<ContentItem> contentItems = new List<ContentItem>();
         private static List<AssignmentGroup> assignmentGroups = new List<AssignmentGroup>();
         private static List<Assignment> assignments= new List<Assignment>();
+        private static List<Submission> submissions = new List<Submission>();
         public static List<Person> People
         {
             get
@@ -65,6 +66,13 @@ namespace Library.LearningManagement.Database
             get
             {
                 return assignments;
+            }
+        }
+        public static List<Submission> Submissions
+        {
+            get
+            {
+                return submissions;
             }
         }
     }

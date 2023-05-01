@@ -22,7 +22,7 @@ namespace Library.LearningManagement.Models
             }
         }
         public Student Student { get; set; }
-        public int Grade { get; set; }
+        public double Grade { get; set; }
 
 
         public Submission()
@@ -33,7 +33,7 @@ namespace Library.LearningManagement.Models
 
         public override string ToString()
         {
-            return $"{Student.Name} - {Grade}";
+            return $"{Student?.Name} - {Grade}";
         }
     }
 }

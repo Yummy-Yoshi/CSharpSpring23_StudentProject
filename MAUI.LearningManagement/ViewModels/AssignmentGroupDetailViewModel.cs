@@ -70,6 +70,10 @@ namespace MAUI.LearningManagement.ViewModels
                 var refToUpdate = AssignmentGroupService.Current.GetById(Id);
                 refToUpdate.Name = Name;
                 refToUpdate.Weight = Weight;
+                if (SelectedAssignment != null)
+                {
+                    refToUpdate.Assignments.Add(SelectedAssignment);
+                }
 
                 var course = CourseService.Current.GetById(CourseId);
                 CourseService.Current.RemoveAssignmentGroup(course, refToUpdate);
@@ -89,29 +93,29 @@ namespace MAUI.LearningManagement.ViewModels
         public void AddAssignmentClick(Shell s)
         {
             var idParam = 0;
-            s.GoToAsync($"//AssignmentDetail?moduleId={Id}&assignmentId={idParam}&courseId={CourseId}");
+            s.GoToAsync($"//AssignmentDetail?assignmentgroupId={Id}&assignmentId={idParam}&courseId={CourseId}");
 
         }
         public void EditAssignmentClick(Shell s)
         {
             var idParam = SelectedAssignment?.Id ?? 0;
-            s.GoToAsync($"//AssignmentDetail?moduleId={Id}&assignmentId={idParam}&courseId={CourseId}");
+            s.GoToAsync($"//AssignmentDetail?assignmentgroupId={Id}&assignmentId={idParam}&courseId={CourseId}");
 
         }
 
-        public void RemoveAssignmentClick(int moduleId)
-        {/*
+        public void RemoveAssignmentClick(int courseId)
+        {
             if (SelectedAssignment == null) { return; }
 
             AssignmentService.Current.Remove(SelectedAssignment);
 
-            var refToUpdate = ModuleService.Current.GetById(moduleId);
+            var refToUpdate = AssignmentGroupService.Current.GetById(courseId);
 
             if (refToUpdate != null)
             {
-                ModuleService.Current.RemoveContent(refToUpdate, SelectedAssignment);
+                AssignmentGroupService.Current.RemoveAssignment(refToUpdate, SelectedAssignment);
             }
-            RefreshView();*/
+            RefreshView();
         }
 
         public Assignment SelectedAssignment { get; set; }

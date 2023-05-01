@@ -47,5 +47,26 @@ namespace Library.LearningManagement.Services
         {
             return FakeDatabase.Assignments.FirstOrDefault(a => a.Id == id);
         }
+
+        public void AddSubmission(Assignment assignment, Submission submission)
+        {
+            foreach (var item in FakeDatabase.Assignments)
+            {
+                if (item.Name == assignment.Name)
+                {
+                    item.Submissions.Add(submission);
+                }
+            }
+        }
+        public void RemoveSubmission(Assignment assignment, Submission submission)
+        {
+            foreach (var item in FakeDatabase.Assignments)
+            {
+                if (item.Name == assignment.Name)
+                {
+                    item.Submissions.Remove(submission);
+                }
+            }
+        }
     }
 }

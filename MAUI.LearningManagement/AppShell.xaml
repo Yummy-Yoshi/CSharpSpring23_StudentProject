@@ -51,7 +51,20 @@
         Title="File Item Detail"
         ContentTemplate="{DataTemplate local2:AssignmentGroupDetailView}"
         Route="AssignmentGroupDetail" />
-
-
-
+    <ShellContent
+        Title="Assignment Detail"
+        ContentTemplate="{DataTemplate local2:AssignmentDetailView}"
+        Route="AssignmentDetail" />
+    <ShellContent
+        Title="Submission Detail"
+        ContentTemplate="{DataTemplate local2:SubmissionDetailView}"
+        Route="SubmissionDetail" />
+    <ShellContent
+        Title="Student Course Detail"
+        ContentTemplate="{DataTemplate local2:StudentCourseDetailView}"
+        Route="StudentCourseDetail" />
+    <ShellContent
+        Title="Student Check Course Detail"
+        ContentTemplate="{DataTemplate local2:StudentCheckCourseDetailView}"
+        Route="StudentCheckCourseDetail" />
 </Shell>

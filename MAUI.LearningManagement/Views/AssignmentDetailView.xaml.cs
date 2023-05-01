@@ -1,4 +1,5 @@
 using Library.LearningManagement.Models;
+using MAUI.LearningManagement.ViewModels;
 using System.Reflection;
 
 namespace MAUI.LearningManagement.Views;
@@ -33,7 +34,7 @@ public partial class AssignmentDetailView : ContentPage
 
     private void CancelClick(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync($"//AssignmentDetail?assignmentgroupId={AssignmentGroupId}&courseId={CourseId}");
+        Shell.Current.GoToAsync($"//AssignmentGroupDetail?assignmentgroupId={AssignmentGroupId}&courseId={CourseId}&assignmentId={AssignmentId}");
     }
 
     private void OnLeaving(object sender, NavigatedFromEventArgs e)
@@ -44,5 +45,17 @@ public partial class AssignmentDetailView : ContentPage
     private void OnArriving(object sender, NavigatedToEventArgs e)
     {
         BindingContext = new AssignmentDetailViewModel(AssignmentGroupId, AssignmentId, CourseId);
+    }
+    private void AddSubmissionClick(object sender, EventArgs e)
+    {
+        (BindingContext as AssignmentDetailViewModel).AddSubmissionClick(Shell.Current);
+    }
+    private void EditSubmissionClick(object sender, EventArgs e)
+    {
+        (BindingContext as AssignmentDetailViewModel).EditSubmissionClick(Shell.Current);
+    }
+    private void RemoveSubmissionClick(object sender, EventArgs e)
+    {
+        (BindingContext as AssignmentDetailViewModel).RemoveSubmissionClick(AssignmentGroupId);
     }
 }

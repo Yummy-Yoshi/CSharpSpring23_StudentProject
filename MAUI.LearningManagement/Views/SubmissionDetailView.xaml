@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUI.LearningManagement.Views.SubmissionDetailView"
+             Title="SubmissionDetailView"
+             NavigatedFrom="OnLeaving"
+             NavigatedTo="OnArriving"
+             >
+    <VerticalStackLayout>
+        <Label 
+            Text="Student"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <ListView
+                ItemsSource="{Binding Students}"
+                SelectedItem="{Binding SelectedStudent}">
+        </ListView>
+        <Label 
+            Text="Grade"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <Entry Text="{Binding Path=Grade, Mode=TwoWay}"></Entry>
+        <Button
+            Text="Ok"
+            Clicked="OkClick"
+            />
+        <Button
+            Text="Cancel"
+            Clicked="CancelClick"
+            />
+    </VerticalStackLayout>
+</ContentPage>

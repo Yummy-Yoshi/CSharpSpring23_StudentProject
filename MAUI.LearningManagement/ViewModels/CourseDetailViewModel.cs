@@ -25,6 +25,7 @@ namespace MAUI.LearningManagement.ViewModels
 
         public string Room { get; set; }
 
+        public int CreditHours { get; set; }
         public List<Announcement> Announcements { get; set; }
         /*
         public string Name
@@ -72,6 +73,7 @@ namespace MAUI.LearningManagement.ViewModels
                 Roster = course.Roster;
                 SemesterString = ClassToString(course.Semester);
                 Room = course.Room;
+                CreditHours = course.CreditHours;
                 Announcements = course.Announcements;
             }
 
@@ -81,6 +83,7 @@ namespace MAUI.LearningManagement.ViewModels
             NotifyPropertyChanged(nameof(Roster));
             NotifyPropertyChanged(nameof(SemesterString));
             NotifyPropertyChanged(nameof(Room));
+            NotifyPropertyChanged(nameof(CreditHours));
             NotifyPropertyChanged(nameof(Announcements));
         }
 
@@ -91,8 +94,11 @@ namespace MAUI.LearningManagement.ViewModels
             if (Id <= 0)
             {
                 //CourseService.Current.Add(new Course { Name = Name, Description = Description, Prefix = Prefix });
-                var course = new Course { Name = Name, Description = Description, Prefix = Prefix, Semester = StringToClass(SemesterString), Room = Room };
-                course.Roster.Add(SelectedPerson);
+                var course = new Course { Name = Name, Description = Description, Prefix = Prefix, Semester = StringToClass(SemesterString), Room = Room, CreditHours = CreditHours};
+                if(SelectedPerson != null)
+                {
+                    course.Roster.Add(SelectedPerson);
+                }
                 CourseService.Current.Add(course);
             }
             else
@@ -103,6 +109,7 @@ namespace MAUI.LearningManagement.ViewModels
                 refToUpdate.Prefix = Prefix;
                 refToUpdate.Semester = StringToClass(SemesterString);
                 refToUpdate.Room = Room;
+                refToUpdate.CreditHours = CreditHours;
             }
             Shell.Current.GoToAsync("//Instructor");
         }
