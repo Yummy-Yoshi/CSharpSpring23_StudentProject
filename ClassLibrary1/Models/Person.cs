@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.LearningManagement.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,12 @@ namespace Library.LearningManagement.Models
         public override string ToString()
         {
             return Display;
+        }
+
+        public Person(PersonDTO dto)
+        {
+            Id = dto.Id;
+            Name = dto.Name;
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿using Library.LearningManagement.Models;
+﻿using Library.LearningManagement.DTO;
+using Library.LearningManagement.Models;
 using Library.LearningManagement.Services;
+using MAUI.LearningManagement.Util;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,7 +21,7 @@ namespace MAUI.LearningManagement.ViewModels
             IsEnrollmentsVisible = true;
             IsCoursesVisible = false;
         }
-        public ObservableCollection<Person> People
+        /*public ObservableCollection<Person> People
         {
             get
             {
@@ -30,6 +33,16 @@ namespace MAUI.LearningManagement.ViewModels
                     s => s.Name.ToUpper().Contains(Query?.ToUpper() ?? string.Empty));
                 return new ObservableCollection<Person>(filteredList);
 
+            }
+        }*/
+
+        public IEnumerable<PersonViewModel> People
+        {
+            get
+            {
+                var payload = new WebRequestHandler().Get("http://localhost:5112/Person").Result;
+                var returnVal = JsonConvert.DeserializeObject<List<PersonDTO>>(payload).Select(d => new PersonViewModel(d));
+                return returnVal;
             }
         }
 

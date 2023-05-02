@@ -28,6 +28,13 @@
             <ListView
                 ItemsSource="{Binding People}"
                 SelectedItem="{Binding SelectedPerson}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Label Text="{Binding Display}"></Label>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
             <Button 
                 Text="Add Enrollment"

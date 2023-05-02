@@ -72,7 +72,7 @@ namespace MAUI.LearningManagement.ViewModels
                 {
                     assignment.Submissions.Add(SelectedSubmission);
                 }
-                AssignmentService.Current.Add(assignment);
+                //AssignmentService.Current.Add(assignment);
                 var course = CourseService.Current.GetById(CourseId);
                 course.Assignments.Add(assignment);
 
@@ -92,7 +92,7 @@ namespace MAUI.LearningManagement.ViewModels
                 }
                 var course = CourseService.Current.GetById(CourseId);
                 course.Assignments.Add(refToUpdate);
-                AssignmentService.Current.Add(refToUpdate);
+                //AssignmentService.Current.Add(refToUpdate);
 
                 var assignmentGroup = AssignmentGroupService.Current.GetById(AssignmentGroupId);
                 AssignmentGroupService.Current.RemoveAssignment(assignmentGroup, refToUpdate);
